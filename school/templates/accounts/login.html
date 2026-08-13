@@ -1,0 +1,1249 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>School ERP - Login</title>
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 10% 20%,
+                    rgba(99, 102, 241, 0.12),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(79, 70, 229, 0.10),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #f8fafc
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 30px;
+
+            color: #111827;
+        }
+
+
+        /* =====================================================
+           LOGIN CONTAINER
+        ===================================================== */
+
+        .login-container {
+
+            position: relative;
+
+            width: 100%;
+
+            max-width: 1120px;
+
+            min-height: 670px;
+
+            background: #ffffff;
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            display: grid;
+
+            grid-template-columns: 1fr 0.88fr;
+
+            box-shadow:
+                0 35px 80px rgba(15, 23, 42, 0.15),
+                0 10px 30px rgba(79, 70, 229, 0.08);
+
+            animation: containerAppear 0.7s ease;
+        }
+
+
+        @keyframes containerAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+
+        /* =====================================================
+           LEFT SCHOOL SECTION
+        ===================================================== */
+
+        .school-section {
+
+            position: relative;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #312e81 0%,
+                    #4338ca 45%,
+                    #6366f1 100%
+                );
+
+            color: white;
+
+            padding: 45px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            overflow: hidden;
+        }
+
+
+        /* Decorative circles */
+
+        .school-section::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 380px;
+
+            height: 380px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.055);
+
+            top: -170px;
+
+            left: -120px;
+        }
+
+
+        .school-section::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 460px;
+
+            height: 460px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.045);
+
+            bottom: -260px;
+
+            right: -170px;
+        }
+
+
+        /* Small badge */
+
+        .school-badge {
+
+            position: relative;
+
+            z-index: 5;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 8px 15px;
+
+            margin-bottom: 22px;
+
+            border: 1px solid rgba(255,255,255,0.22);
+
+            background: rgba(255,255,255,0.10);
+
+            border-radius: 50px;
+
+            color: #eef2ff;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            letter-spacing: 0.3px;
+
+            backdrop-filter: blur(8px);
+        }
+
+
+        .school-badge i {
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           LOGO
+        ===================================================== */
+
+        .school-logo-container {
+
+            position: relative;
+
+            z-index: 5;
+
+            width: 300px;
+
+            height: 300px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-bottom: 22px;
+
+            border-radius: 24px;
+
+            background: rgba(255,255,255,0.96);
+
+            box-shadow:
+                0 20px 45px rgba(0,0,0,0.22);
+
+            overflow: hidden;
+        }
+
+
+        .school-logo {
+
+            width: 290px;
+
+            height: 290px;
+
+            object-fit: contain;
+
+            display: block;
+
+            transform: scale(1.08);
+
+            transition: transform 0.35s ease;
+        }
+
+
+        .school-logo-container:hover .school-logo {
+
+            transform: scale(1.14);
+        }
+
+
+        /* =====================================================
+           SCHOOL TEXT
+        ===================================================== */
+
+        .school-section h1 {
+
+            position: relative;
+
+            z-index: 5;
+
+            margin: 0;
+
+            font-size: 30px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.2px;
+        }
+
+
+        .school-subtitle {
+
+            position: relative;
+
+            z-index: 5;
+
+            margin-top: 7px;
+
+            font-size: 14px;
+
+            color: #e0e7ff;
+
+            font-weight: 500;
+        }
+
+
+        .school-divider {
+
+            position: relative;
+
+            z-index: 5;
+
+            width: 75px;
+
+            height: 3px;
+
+            background: rgba(255,255,255,0.85);
+
+            border-radius: 20px;
+
+            margin: 17px auto;
+        }
+
+
+        .school-tagline {
+
+            position: relative;
+
+            z-index: 5;
+
+            font-size: 13px;
+
+            color: #e0e7ff;
+
+            letter-spacing: 0.6px;
+        }
+
+
+        /* =====================================================
+           RIGHT LOGIN SECTION
+        ===================================================== */
+
+        .login-section {
+
+            position: relative;
+
+            padding: 60px 65px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #ffffff;
+        }
+
+
+        .login-box {
+
+            width: 100%;
+
+            max-width: 410px;
+        }
+
+
+        /* Top small badge */
+
+        .portal-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 7px 12px;
+
+            border-radius: 50px;
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =====================================================
+           LOGIN ICON
+        ===================================================== */
+
+        .login-icon {
+
+            width: 62px;
+
+            height: 62px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #4f46e5
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 26px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 12px 25px rgba(79,70,229,0.25);
+        }
+
+
+        /* =====================================================
+           LOGIN HEADER
+        ===================================================== */
+
+        .login-box h2 {
+
+            margin: 0;
+
+            color: #111827;
+
+            font-size: 32px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.6px;
+        }
+
+
+        .login-description {
+
+            margin-top: 9px;
+
+            margin-bottom: 30px;
+
+            color: #6b7280;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           ERROR
+        ===================================================== */
+
+        .error-message {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            background: #fef2f2;
+
+            border: 1px solid #fecaca;
+
+            color: #b91c1c;
+
+            padding: 12px 14px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .form-group {
+
+            margin-bottom: 20px;
+        }
+
+
+        .form-label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #374151;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .input-wrapper {
+
+            position: relative;
+        }
+
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 16px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #9ca3af;
+
+            font-size: 17px;
+
+            pointer-events: none;
+
+            transition: color 0.2s ease;
+        }
+
+
+        .form-input {
+
+            width: 100%;
+
+            height: 54px;
+
+            border: 1px solid #d6dbe5;
+
+            border-radius: 12px;
+
+            padding: 0 48px 0 46px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            color: #111827;
+
+            background: #f9fafb;
+
+            transition:
+                border 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+
+        .form-input::placeholder {
+
+            color: #9ca3af;
+        }
+
+
+        .form-input:focus {
+
+            background: #ffffff;
+
+            border-color: #6366f1;
+
+            box-shadow:
+                0 0 0 4px rgba(99,102,241,0.10);
+        }
+
+
+        .input-wrapper:focus-within .input-icon {
+
+            color: #6366f1;
+        }
+
+
+        /* Password toggle */
+
+        .password-toggle {
+
+            position: absolute;
+
+            right: 15px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            color: #9ca3af;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            padding: 4px;
+        }
+
+
+        .password-toggle:hover {
+
+            color: #4f46e5;
+        }
+
+
+        /* =====================================================
+           OPTIONS
+        ===================================================== */
+
+        .login-options {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-top: -5px;
+
+            margin-bottom: 22px;
+
+            font-size: 12px;
+        }
+
+
+        .remember-me {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #6b7280;
+
+            cursor: pointer;
+        }
+
+
+        .remember-me input {
+
+            accent-color: #4f46e5;
+
+            width: 14px;
+
+            height: 14px;
+        }
+
+
+        .secure-login {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            color: #16a34a;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           LOGIN BUTTON
+        ===================================================== */
+
+        .login-button {
+
+            width: 100%;
+
+            height: 54px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #6366f1
+                );
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 9px;
+
+            box-shadow:
+                0 10px 22px rgba(79,70,229,0.22);
+
+            transition: all 0.25s ease;
+        }
+
+
+        .login-button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 15px 28px rgba(79,70,229,0.30);
+        }
+
+
+        .login-button:active {
+
+            transform: translateY(0);
+        }
+
+
+        .login-button i {
+
+            font-size: 17px;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .login-footer {
+
+            text-align: center;
+
+            margin-top: 28px;
+
+            color: #9ca3af;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+
+        .login-footer strong {
+
+            color: #4f46e5;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           BOTTOM SECURITY NOTE
+        ===================================================== */
+
+        .security-note {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 6px;
+
+            margin-top: 18px;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+        }
+
+
+        .security-note i {
+
+            color: #16a34a;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            body {
+                padding: 18px;
+            }
+
+
+            .login-container {
+
+                max-width: 550px;
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .school-section {
+
+                min-height: 470px;
+
+                padding: 35px 25px;
+            }
+
+
+            .school-logo-container {
+
+                width: 240px;
+
+                height: 240px;
+            }
+
+
+            .school-logo {
+
+                width: 235px;
+
+                height: 235px;
+            }
+
+
+            .login-section {
+
+                padding: 45px 35px;
+            }
+        }
+
+
+        @media (max-width: 500px) {
+
+            body {
+
+                padding: 10px;
+
+            }
+
+
+            .login-container {
+
+                border-radius: 20px;
+
+            }
+
+
+            .school-section {
+
+                min-height: 410px;
+
+                padding: 28px 18px;
+            }
+
+
+            .school-logo-container {
+
+                width: 200px;
+
+                height: 200px;
+
+                border-radius: 18px;
+            }
+
+
+            .school-logo {
+
+                width: 195px;
+
+                height: 195px;
+            }
+
+
+            .school-section h1 {
+
+                font-size: 23px;
+            }
+
+
+            .login-section {
+
+                padding: 38px 22px;
+            }
+
+
+            .login-box h2 {
+
+                font-size: 27px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-container">
+
+
+    <!-- =================================================
+         SCHOOL SIDE
+    ================================================== -->
+
+    <div class="school-section">
+
+
+        <div class="school-badge">
+
+            <i class="bi bi-mortarboard-fill"></i>
+
+            SCHOOL MANAGEMENT SYSTEM
+
+        </div>
+
+
+        <div class="school-logo-container">
+
+            <img
+                src="{% static 'images/school_logo.jpeg' %}"
+                alt="Shri Gangadhar English Medium High School"
+                class="school-logo"
+            >
+
+        </div>
+
+
+        <h1>
+            Shri Gangadhar
+        </h1>
+
+
+        <div class="school-subtitle">
+
+            English Medium High School
+
+        </div>
+
+
+        <div class="school-divider"></div>
+
+
+        <div class="school-tagline">
+
+            Knowledge • Character • Success
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         LOGIN SIDE
+    ================================================== -->
+
+    <div class="login-section">
+
+
+        <div class="login-box">
+
+
+            <div class="portal-badge">
+
+                <i class="bi bi-shield-check"></i>
+
+                SECURE SCHOOL PORTAL
+
+            </div>
+
+
+            <div class="login-icon">
+
+                <i class="bi bi-mortarboard-fill"></i>
+
+            </div>
+
+
+            <h2>
+
+                Welcome Back
+
+            </h2>
+
+
+            <div class="login-description">
+
+                Sign in to continue to your
+                <strong>School Management Portal.</strong>
+
+            </div>
+
+
+            {% if error %}
+
+                <div class="error-message">
+
+                    <i class="bi bi-exclamation-circle-fill"></i>
+
+                    {{ error }}
+
+                </div>
+
+            {% endif %}
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+
+                        Username
+
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <i class="bi bi-person input-icon"></i>
+
+
+                        <input
+                            type="text"
+                            name="username"
+                            class="form-input"
+                            placeholder="Enter your username"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+
+                        Password
+
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <i class="bi bi-lock input-icon"></i>
+
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            class="form-input"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()"
+                            aria-label="Show password"
+                        >
+
+                            <i
+                                class="bi bi-eye"
+                                id="passwordIcon"
+                            ></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPTIONS -->
+
+                <div class="login-options">
+
+                    <label class="remember-me">
+
+                        <input
+                            type="checkbox"
+                            name="remember"
+                        >
+
+                        Remember me
+
+                    </label>
+
+
+                    <div class="secure-login">
+
+                        <i class="bi bi-shield-lock-fill"></i>
+
+                        Secure Login
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    type="submit"
+                    class="login-button"
+                >
+
+                    <i class="bi bi-box-arrow-in-right"></i>
+
+                    Login to School ERP
+
+                </button>
+
+
+            </form>
+
+
+            <div class="security-note">
+
+                <i class="bi bi-lock-fill"></i>
+
+                Your login information is protected
+
+            </div>
+
+
+            <div class="login-footer">
+
+                <strong>Shri Gangadhar English Medium High School</strong>
+
+                <br>
+
+                School Management Portal
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+    function togglePassword() {
+
+        const password =
+            document.getElementById("password");
+
+        const icon =
+            document.getElementById("passwordIcon");
+
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+            icon.classList.remove("bi-eye");
+
+            icon.classList.add("bi-eye-slash");
+
+        } else {
+
+            password.type = "password";
+
+            icon.classList.remove("bi-eye-slash");
+
+            icon.classList.add("bi-eye");
+
+        }
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

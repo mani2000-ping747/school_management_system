@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}
+Payment History
+{% endblock %}
+
+{% block content %}
+
+<h3 class="mb-3">
+
+    Payment History
+
+</h3>
+
+<table class="table table-bordered">
+
+    <thead class="table-primary">
+
+        <tr>
+
+            <th>Student</th>
+
+            <th>Fee Category</th>
+
+            <th>Paid Amount</th>
+
+            <th>Payment Mode</th>
+
+            <th>Date</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for payment in payments %}
+
+        <tr>
+
+            <td>
+
+                {{ payment.student_fee.student }}
+
+            </td>
+
+            <td>
+
+                {{ payment.student_fee.fee_category }}
+
+            </td>
+
+            <td>
+
+                ₹ {{ payment.amount_paid  }}
+
+            </td>
+
+            <td>
+
+                {{ payment.payment_mode }}
+
+            </td>
+
+            <td>
+
+                {{ payment.payment_date }}
+
+            </td>
+
+        </tr>
+
+    {% empty %}
+
+        <tr>
+
+            <td colspan="5"
+                class="text-center">
+
+                No Payments Found
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

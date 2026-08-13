@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}
+Fee Collection
+{% endblock %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-primary text-white">
+
+        Student Fee Collection
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="GET" class="row mb-4">
+
+    <div class="col-md-4">
+
+        <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Admission No / Student Name"
+            value="{{ search }}"
+        >
+
+    </div>
+
+        <div class="col-md-3">
+
+            <select
+                name="class"
+                class="form-select"
+            >
+
+                <option value="">All Classes</option>
+
+                {% for cls in classes %}
+
+                    <option
+                        value="{{ cls.id }}"
+                        {% if selected_class == cls.id|stringformat:"s" %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ cls.name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <button class="btn btn-success">
+
+                Search
+
+            </button>
+
+        </div>
+
+    </form>
+
+        {% if student %}
+
+        <div class="alert alert-info">
+
+            <h5>
+
+                {{ student.first_name }} {{ student.last_name }}
+
+            </h5>
+
+            Admission No :
+            {{ student.admission_no }}
+
+            <br>
+
+            Class :
+            {{ student.student_class }}
+
+            <br>
+
+            Section :
+            {{ student.section }}
+
+        </div>
+
+        <table class="table table-bordered">
+
+            <thead class="table-primary">
+
+                <tr>
+
+                    <th>Fee Category</th>
+
+                    <th>Total</th>
+
+                    <th>Discount</th>
+
+                    <th>Paid</th>
+
+                    <th>Balance</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for fee in fees %}
+
+                <tr>
+
+                    <td>
+
+                        {{ fee.fee_category }}
+
+                    </td>
+
+                    <td>
+
+                        ₹ {{ fee.amount }}
+
+                    </td>
+
+                    <td>
+
+                        ₹ {{ fee.discount }}
+
+                    </td>
+
+                    <td>
+
+                        ₹ {{ fee.total_paid }}
+
+                    </td>
+
+                    <td>
+
+                        ₹ {{ fee.balance }}
+
+                    </td>
+
+                    <td>
+
+                        {% if fee.balance == 0 %}
+
+                            <span class="badge bg-success">
+
+                                Paid
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-warning">
+
+                                Pending
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <a href="{% url 'collect_fee' fee.id %}"
+                        class="btn btn-success btn-sm">
+
+                            Collect
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

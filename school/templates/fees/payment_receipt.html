@@ -1,0 +1,506 @@
+{% extends "base.html" %}
+
+{% block title %}
+Payment Receipt
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .receipt-container {
+        max-width: 850px;
+        margin: 0 auto;
+    }
+
+    .receipt-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Header */
+
+    .receipt-header {
+        text-align: center;
+        padding: 28px 25px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .receipt-header h2 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 800;
+        color: #1f2937;
+    }
+
+    .receipt-header p {
+        margin: 5px 0 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .success-icon {
+        width: 55px;
+        height: 55px;
+        margin: 0 auto 12px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+        background: #dcfce7;
+        color: #16a34a;
+
+        font-size: 28px;
+    }
+
+    /* Body */
+
+    .receipt-body {
+        padding: 28px;
+    }
+
+    .section-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #374151;
+
+        margin-bottom: 15px;
+    }
+
+    .student-box {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+
+    .info-label {
+        font-size: 12px;
+        color: #6b7280;
+        margin-bottom: 4px;
+    }
+
+    .info-value {
+        font-size: 15px;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    /* Payment Table */
+
+    .payment-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .payment-table th {
+        background: #f8fafc;
+        padding: 13px;
+        font-size: 13px;
+        color: #374151;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .payment-table td {
+        padding: 14px 13px;
+        font-size: 14px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .amount-paid {
+        color: #16a34a;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .balance-box {
+        margin-top: 20px;
+        padding: 18px;
+
+        background: #f8fafc;
+        border-radius: 12px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .balance-label {
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+    .balance-value {
+        font-size: 21px;
+        font-weight: 800;
+        color: #dc2626;
+    }
+
+    /* Footer */
+
+    .receipt-footer {
+        padding: 20px 28px;
+
+        border-top: 1px solid #e5e7eb;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .computer-generated {
+        font-size: 12px;
+        color: #9ca3af;
+    }
+
+    /* Print */
+
+    @media print {
+
+        body {
+            background: white !important;
+        }
+
+        .sidebar,
+        .top-navbar,
+        .receipt-actions {
+            display: none !important;
+        }
+
+        .main-content {
+            margin-left: 0 !important;
+        }
+
+        .page-content {
+            padding: 0 !important;
+        }
+
+        .receipt-container {
+            max-width: 100%;
+        }
+
+        .receipt-card {
+            box-shadow: none;
+            border: 1px solid #000;
+        }
+
+    }
+
+</style>
+
+
+<div class="receipt-container">
+
+    <!-- Page Header -->
+
+    <div class="page-header receipt-actions">
+
+        <div>
+
+            <h1 class="page-title">
+                Payment Receipt
+            </h1>
+
+            <div class="page-subtitle">
+                Payment has been successfully recorded
+            </div>
+
+        </div>
+
+        <div>
+
+            <button
+                onclick="window.print()"
+                class="btn btn-primary"
+            >
+
+                <i class="bi bi-printer me-1"></i>
+
+                Print Receipt
+
+            </button>
+
+            <a
+                href="{% url 'payment_list' %}"
+                class="btn btn-secondary"
+            >
+
+                <i class="bi bi-arrow-left me-1"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Receipt -->
+
+    <div class="receipt-card">
+
+        <!-- Receipt Header -->
+
+        <div class="receipt-header">
+
+            <div class="success-icon">
+
+                <i class="bi bi-check-lg"></i>
+
+            </div>
+
+            <h2>
+                Payment Receipt
+            </h2>
+
+            <p>
+                Payment successfully received
+            </p>
+
+        </div>
+
+
+        <!-- Receipt Body -->
+
+        <div class="receipt-body">
+
+            <!-- Student Information -->
+
+            <div class="section-title">
+
+                <i class="bi bi-person-circle me-2"></i>
+
+                Student Information
+
+            </div>
+
+
+            <div class="student-box">
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <div class="info-label">
+                            Student Name
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ payment.student_fee.student.first_name }}
+
+                            {{ payment.student_fee.student.last_name }}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="info-label">
+                            Admission Number
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ payment.student_fee.student.admission_no }}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="info-label">
+                            Class
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ payment.student_fee.student.student_class }}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="info-label">
+                            Section
+                        </div>
+
+                        <div class="info-value">
+
+                            {{ payment.student_fee.student.section }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Payment Information -->
+
+            <div class="section-title">
+
+                <i class="bi bi-cash-stack me-2"></i>
+
+                Payment Details
+
+            </div>
+
+
+            <table class="payment-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Fee Category
+                        </th>
+
+                        <th>
+                            Total Fee
+                        </th>
+
+                        <th>
+                            Discount
+                        </th>
+
+                        <th>
+                            Paid Now
+                        </th>
+
+                        <th>
+                            Payment Mode
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            {{ payment.student_fee.fee_category }}
+                        </td>
+
+                        <td>
+                            ₹ {{ payment.student_fee.amount }}
+                        </td>
+
+                        <td>
+                            ₹ {{ payment.student_fee.discount }}
+                        </td>
+
+                        <td>
+
+                            <span class="amount-paid">
+
+                                ₹ {{ payment.amount_paid }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                {{ payment.payment_mode }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+
+            <!-- Payment Date -->
+
+            <div class="row mt-4">
+
+                <div class="col-md-6">
+
+                    <div class="info-label">
+                        Payment Date
+                    </div>
+
+                    <div class="info-value">
+
+                        {{ payment.payment_date|date:"d M Y" }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Balance -->
+
+            <div class="balance-box">
+
+                <div class="balance-label">
+
+                    Remaining Balance
+
+                </div>
+
+                <div class="balance-value">
+
+                    ₹ {{ balance }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Receipt Footer -->
+
+        <div class="receipt-footer">
+
+            <div class="computer-generated">
+
+                This is a computer-generated receipt.
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Thank you!
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

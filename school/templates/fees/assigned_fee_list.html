@@ -1,0 +1,734 @@
+{% extends "base.html" %}
+
+{% block title %}
+Assigned Fees
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* =====================================================
+       ASSIGNED FEES
+    ===================================================== */
+
+    .assigned-fee-table {
+        margin-bottom: 0;
+    }
+
+
+    .assigned-fee-table thead th {
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        color: #374151;
+
+        background: #f1f5ff;
+
+        padding: 15px 14px;
+
+        white-space: nowrap;
+
+    }
+
+
+    .assigned-fee-table tbody td {
+
+        font-size: 14px;
+
+        padding: 15px 14px;
+
+        vertical-align: middle;
+
+        color: #1f2937;
+
+    }
+
+
+    .assigned-fee-table tbody tr {
+
+        transition: background 0.2s ease;
+
+    }
+
+
+    .assigned-fee-table tbody tr:hover {
+
+        background: #f8faff;
+
+    }
+
+
+    /* =====================================================
+       STUDENT
+    ===================================================== */
+
+    .student-name {
+
+        font-size: 15px;
+
+        font-weight: 700;
+
+        color: #1d4ed8;
+
+    }
+
+
+    .admission-number {
+
+        font-size: 13px;
+
+        font-weight: 600;
+
+        color: #374151;
+
+    }
+
+
+    .class-name {
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+    }
+
+
+    /* =====================================================
+       AMOUNTS
+    ===================================================== */
+
+    .amount {
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        white-space: nowrap;
+
+    }
+
+
+    .paid-amount {
+
+        color: #059669;
+
+        font-weight: 700;
+
+    }
+
+
+    .balance-amount {
+
+        color: #dc2626;
+
+        font-weight: 700;
+
+    }
+
+
+    .zero-balance {
+
+        color: #059669;
+
+        font-weight: 700;
+
+    }
+
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    .status-badge {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 5px;
+
+        padding: 7px 10px;
+
+        border-radius: 7px;
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+    }
+
+
+    .status-paid {
+
+        background: #dcfce7;
+
+        color: #15803d;
+
+    }
+
+
+    .status-pending {
+
+        background: #fef3c7;
+
+        color: #92400e;
+
+    }
+
+
+    /* =====================================================
+       ACTION BUTTONS
+    ===================================================== */
+
+    .fee-action {
+
+        width: 36px;
+
+        height: 36px;
+
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 7px;
+
+        border: none;
+
+        text-decoration: none;
+
+        margin: 2px;
+
+        transition: all 0.2s ease;
+
+    }
+
+
+    .fee-action i {
+
+        font-size: 15px;
+
+    }
+
+
+    /* Collect */
+
+    .collect-action {
+
+        background: #16a34a;
+
+        color: white;
+
+    }
+
+
+    .collect-action:hover {
+
+        background: #15803d;
+
+        color: white;
+
+        transform: translateY(-1px);
+
+    }
+
+
+    /* View */
+
+    .view-action {
+
+        background: #e0e7ff;
+
+        color: #4338ca;
+
+    }
+
+
+    .view-action:hover {
+
+        background: #c7d2fe;
+
+        color: #3730a3;
+
+    }
+
+
+    /* Edit */
+
+    .edit-action {
+
+        background: #fef3c7;
+
+        color: #d97706;
+
+    }
+
+
+    .edit-action:hover {
+
+        background: #fde68a;
+
+        color: #b45309;
+
+    }
+
+
+    /* Delete */
+
+    .delete-action {
+
+        background: #fee2e2;
+
+        color: #dc2626;
+
+    }
+
+
+    .delete-action:hover {
+
+        background: #fecaca;
+
+        color: #b91c1c;
+
+    }
+
+
+    /* Disabled */
+
+    .disabled-action {
+
+        background: #f3f4f6;
+
+        color: #9ca3af;
+
+        cursor: not-allowed;
+
+    }
+
+
+    /* =====================================================
+       TOP BUTTON
+    ===================================================== */
+
+    .assign-fee-btn {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 7px;
+
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+
+    .empty-state {
+
+        padding: 45px 20px;
+
+        text-align: center;
+
+        color: #6b7280;
+
+    }
+
+
+    .empty-state i {
+
+        font-size: 45px;
+
+        color: #9ca3af;
+
+        display: block;
+
+        margin-bottom: 12px;
+
+    }
+
+
+    .empty-state h5 {
+
+        color: #374151;
+
+        font-weight: 600;
+
+        margin-bottom: 5px;
+
+    }
+
+
+    .empty-state p {
+
+        margin: 0;
+
+        font-size: 13px;
+
+    }
+
+</style>
+
+
+<!-- =====================================================
+     PAGE HEADER
+===================================================== -->
+
+<div class="page-header">
+
+    <div>
+
+        <h1 class="page-title">
+            Assigned Fees
+        </h1>
+
+        <div class="page-subtitle">
+            Manage student fee assignments and payment status
+        </div>
+
+    </div>
+
+
+    <div>
+
+        <a
+            href="{% url 'assign_fee' %}"
+            class="btn btn-primary assign-fee-btn"
+        >
+
+            <i class="bi bi-plus-circle"></i>
+
+            Assign Fee
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TABLE
+===================================================== -->
+
+<div class="table-card">
+
+    <div class="table-responsive">
+
+        <table class="table assigned-fee-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Student
+                    </th>
+
+                    <th>
+                        Admission No
+                    </th>
+
+                    <th>
+                        Class
+                    </th>
+
+                    <th>
+                        Fee Category
+                    </th>
+
+                    <th>
+                        Total Fee
+                    </th>
+
+                    <th>
+                        Discount
+                    </th>
+
+                    <th>
+                        Paid
+                    </th>
+
+                    <th>
+                        Balance
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th class="text-center">
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            {% for fee in assigned_fees %}
+
+                <tr>
+
+                    <!-- Student -->
+
+                    <td>
+
+                        <span class="student-name">
+
+                            {{ fee.student.first_name }}
+                            {{ fee.student.last_name }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- Admission Number -->
+
+                    <td>
+
+                        <span class="admission-number">
+
+                            {{ fee.student.admission_no }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- Class -->
+
+                    <td>
+
+                        <span class="class-name">
+
+                            {{ fee.student.student_class }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- Fee Category -->
+
+                    <td>
+
+                        {{ fee.fee_category.name }}
+
+                    </td>
+
+
+                    <!-- Total Fee -->
+
+                    <td>
+
+                        <span class="amount">
+
+                            ₹ {{ fee.amount }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- Discount -->
+
+                    <td>
+
+                        <span class="amount">
+
+                            ₹ {{ fee.discount }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- Paid -->
+
+                    <td>
+
+                        <span class="amount paid-amount">
+
+                            ₹ {{ fee.total_paid }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- Balance -->
+
+                    <td>
+
+                        {% if fee.balance > 0 %}
+
+                            <span class="amount balance-amount">
+
+                                ₹ {{ fee.balance }}
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="amount zero-balance">
+
+                                ₹ 0
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- Status -->
+
+                    <td>
+
+                        {% if fee.status == "Paid" %}
+
+                            <span class="status-badge status-paid">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                Paid
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="status-badge status-pending">
+
+                                <i class="bi bi-clock-fill"></i>
+
+                                Pending
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- Actions -->
+
+                    <td class="text-center">
+
+                        <!-- Collect -->
+
+                        {% if fee.balance > 0 %}
+
+                            <a
+                                href="{% url 'collect_fee' fee.id %}"
+                                class="fee-action collect-action"
+                                title="Collect Fee"
+                            >
+
+                                <i class="bi bi-cash-coin"></i>
+
+                            </a>
+
+                        {% else %}
+
+                            <span
+                                class="fee-action disabled-action"
+                                title="Fee Fully Paid"
+                            >
+
+                                <i class="bi bi-check-lg"></i>
+
+                            </span>
+
+                        {% endif %}
+
+
+                        <!-- View Payments -->
+
+                        <a
+                            href="{% url 'payment_list' %}"
+                            class="fee-action view-action"
+                            title="View Payments"
+                        >
+
+                            <i class="bi bi-eye"></i>
+
+                        </a>
+
+
+                        <!-- Edit -->
+
+                        <a
+                            href="{% url 'edit_assigned_fee' fee.id %}"
+                            class="fee-action edit-action"
+                            title="Edit Assigned Fee"
+                        >
+
+                            <i class="bi bi-pencil-square"></i>
+
+                        </a>
+
+
+                        <!-- Delete -->
+
+                        <a
+                            href="{% url 'delete_assigned_fee' fee.id %}"
+                            class="fee-action delete-action"
+                            title="Delete Assigned Fee"
+                        >
+
+                            <i class="bi bi-trash"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+
+            {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="10"
+                        class="text-center"
+                    >
+
+                        <div class="empty-state">
+
+                            <i class="bi bi-cash-stack"></i>
+
+                            <h5>
+                                No Assigned Fees
+                            </h5>
+
+                            <p>
+                                No fees have been assigned to students yet.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

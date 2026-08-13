@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+Cannot Delete Fee
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-danger">
+
+    <h4>
+        Cannot Delete Fee
+    </h4>
+
+    <p>
+        This fee cannot be deleted because a payment
+        has already been recorded for this student.
+    </p>
+
+    <p>
+        <strong>Student:</strong>
+        {{ student_fee.student }}
+    </p>
+
+    <p>
+        <strong>Fee:</strong>
+        {{ student_fee.fee_category }}
+    </p>
+
+    <a
+        href="{% url 'assigned_fee_list' %}"
+        class="btn btn-primary">
+
+        Back to Assigned Fees
+
+    </a>
+
+</div>
+
+{% endblock %}

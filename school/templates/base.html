@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>
+        {% block title %}
+            School ERP
+        {% endblock %}
+    </title>
+
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+
+    <style>
+        /* =====================================================
+            DASHBOARD
+            ===================================================== */
+
+            .dashboard-card {
+                height: 100%;
+                transition: all 0.2s ease;
+            }
+
+            .dashboard-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            }
+
+            .dashboard-card-content {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 15px;
+            }
+
+            .dashboard-card-title {
+                color: #6b7280;
+                font-size: 13px;
+                font-weight: 600;
+                margin-bottom: 8px;
+            }
+
+            .dashboard-card-value {
+                color: #111827;
+                font-size: 25px;
+                font-weight: 700;
+                line-height: 1.2;
+            }
+
+            .dashboard-card-description {
+                color: #9ca3af;
+                font-size: 12px;
+                margin-top: 7px;
+            }
+
+            .dashboard-icon {
+                width: 52px;
+                height: 52px;
+                min-width: 52px;
+
+                border-radius: 12px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                font-size: 22px;
+            }
+
+            .students-icon {
+                background: #eef2ff;
+                color: #4f46e5;
+            }
+
+            .fees-icon {
+                background: #fff7ed;
+                color: #f97316;
+            }
+
+            .collected-icon {
+                background: #ecfdf5;
+                color: #16a34a;
+            }
+
+            .pending-icon {
+                background: #fff7ed;
+                color: #ea580c;
+            }
+
+            .dashboard-small-card {
+                height: 100%;
+            }
+
+            .today-amount {
+                font-size: 30px;
+                font-weight: 700;
+                color: #16a34a;
+            }
+
+            .status-number {
+                font-size: 32px;
+                font-weight: 700;
+            }
+        /* ==============================
+        COMMON PAGE
+        ============================== */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title {
+            margin: 0;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-size: 13px;
+        }
+
+
+        /* ==============================
+        COMMON CARD
+        ============================== */
+
+        .erp-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .erp-card-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border-color);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .erp-card-body {
+            padding: 20px;
+        }
+
+
+        /* ==============================
+        COMMON TABLE
+        ============================== */
+
+        .table-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: #f1f5ff;
+            color: #374151;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            padding: 15px;
+            border-bottom: 1px solid #dbe3f0;
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            font-size: 15px;
+            border-color: #e5e7eb;
+        }
+
+        .table tbody tr:hover {
+            background: #f8faff;
+        }
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        :root {
+
+            --sidebar-width: 260px;
+
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+
+            --sidebar-bg: #111827;
+            --sidebar-hover: #1f2937;
+            --sidebar-active: #312e81;
+
+            --body-bg: #f5f7fb;
+
+            --text-dark: #1f2937;
+            --text-muted: #6b7280;
+
+            --border-color: #e5e7eb;
+
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            background: var(--body-bg);
+            color: var(--text-dark);
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            overflow-x: hidden;
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+
+            width: var(--sidebar-width);
+
+            height: 100vh;
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            z-index: 1050;
+
+            background: var(--sidebar-bg);
+
+            color: white;
+
+            overflow-y: auto;
+
+            overflow-x: hidden;
+
+            transition: all 0.3s ease;
+
+            box-shadow:
+                4px 0 20px rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+
+        .sidebar::-webkit-scrollbar-thumb {
+
+            background: #374151;
+
+            border-radius: 10px;
+
+        }
+
+
+        /* =====================================================
+           BRAND
+        ===================================================== */
+
+        .brand {
+
+            padding: 22px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.08);
+
+        }
+
+
+        .brand-icon {
+
+            width: 44px;
+
+            height: 44px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #4f46e5
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 21px;
+
+            box-shadow:
+                0 6px 15px rgba(79,70,229,0.35);
+
+        }
+
+
+        .brand-text h4 {
+
+            margin: 0;
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.2px;
+
+        }
+
+
+        .brand-text small {
+
+            color: #9ca3af;
+
+            font-size: 11px;
+
+        }
+
+
+        /* =====================================================
+           MENU TITLE
+        ===================================================== */
+
+        .menu-title {
+
+            padding:
+                20px 20px 8px;
+
+            color: #6b7280;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.2px;
+
+        }
+
+
+        /* =====================================================
+           SIDEBAR LINKS
+        ===================================================== */
+
+        .sidebar-link {
+
+            margin: 3px 12px;
+
+            padding: 11px 14px;
+
+            border-radius: 10px;
+
+            color: #d1d5db;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            transition: all 0.2s ease;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            cursor: pointer;
+
+        }
+
+
+        .sidebar-link:hover {
+            background: var(--sidebar-hover);
+            color: white;
+        }
+
+
+        .sidebar-link.active {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #4338ca
+                );
+
+            color: white;
+
+            box-shadow:
+                0 5px 15px rgba(79,70,229,0.25);
+
+        }
+
+
+        .sidebar-link-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .sidebar-link i {
+
+            font-size: 17px;
+
+        }
+
+
+        .arrow {
+
+            font-size: 12px !important;
+
+            transition: transform 0.2s ease;
+
+        }
+
+
+        .sidebar-link[aria-expanded="true"] .arrow {
+
+            transform: rotate(180deg);
+
+        }
+
+
+        /* =====================================================
+           SUBMENU
+        ===================================================== */
+
+        .submenu {
+
+            padding:
+                3px 12px 8px;
+
+        }
+
+
+        .submenu a {
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding:
+                9px 14px 9px 48px;
+
+            color: #9ca3af;
+
+            font-size: 13px;
+
+            border-radius: 8px;
+
+            transition: all 0.2s ease;
+
+        }
+
+
+        .submenu a:hover {
+
+            background: #1f2937;
+
+            color: white;
+
+            padding-left: 52px;
+
+        }
+
+
+        .submenu a::before {
+
+            content: "";
+
+            width: 5px;
+
+            height: 5px;
+
+            border-radius: 50%;
+
+            background: #6b7280;
+
+            position: absolute;
+
+            left: 34px;
+
+        }
+
+
+        /* =====================================================
+           SIDEBAR FOOTER
+        ===================================================== */
+
+        .sidebar-footer {
+
+            margin:
+                20px 12px;
+
+            padding:
+                14px;
+
+            border-radius: 12px;
+
+            background: #1f2937;
+
+        }
+
+
+        .sidebar-footer small {
+
+            color: #9ca3af;
+
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            width: calc(100% - var(--sidebar-width));
+            overflow-x: hidden;
+            transition: margin-left 0.3s ease;
+        }
+
+
+        /* =====================================================
+           TOP NAVBAR
+        ===================================================== */
+
+        .top-navbar {
+
+            height: 72px;
+
+            background: white;
+
+            border-bottom:
+                1px solid var(--border-color);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 28px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+        }
+
+
+        .mobile-menu-btn {
+
+            display: none;
+
+            width: 40px;
+
+            height: 40px;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border: none;
+
+            background: #f3f4f6;
+
+            border-radius: 8px;
+
+        }
+
+
+        .welcome-text {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .welcome-text small {
+
+            color: var(--text-muted);
+
+            font-size: 12px;
+
+        }
+
+
+        .welcome-text strong {
+
+            font-size: 16px;
+
+        }
+
+
+        /* =====================================================
+           USER PROFILE
+        ===================================================== */
+
+        .user-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+
+        .user-avatar {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 700;
+
+        }
+
+
+        .user-info {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .user-info strong {
+
+            font-size: 13px;
+
+        }
+
+
+        .user-info small {
+
+            color: var(--text-muted);
+
+            font-size: 11px;
+
+        }
+
+
+        /* =====================================================
+           PAGE CONTENT
+        ===================================================== */
+
+        .page-content {
+
+            padding: 28px;
+
+        }
+
+
+        /* =====================================================
+           PAGE HEADER
+        ===================================================== */
+
+        .page-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .page-title {
+
+            margin: 0;
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+        }
+
+
+        .page-subtitle {
+
+            color: var(--text-muted);
+
+            margin-top: 4px;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =====================================================
+           CARDS
+        ===================================================== */
+
+        .erp-card {
+
+            background: white;
+
+            border: 1px solid var(--border-color);
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.04);
+
+        }
+
+
+        .erp-card-header {
+
+            padding: 18px 20px;
+
+            border-bottom:
+                1px solid var(--border-color);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .erp-card-body {
+
+            padding: 20px;
+
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .btn {
+
+            border-radius: 8px;
+
+            font-weight: 500;
+
+            font-size: 13px;
+
+        }
+
+
+        .btn-primary {
+
+            background: var(--primary);
+
+            border-color: var(--primary);
+
+        }
+
+
+        .btn-primary:hover {
+
+            background: var(--primary-dark);
+
+            border-color: var(--primary-dark);
+
+        }
+
+
+        .btn-warning {
+
+            color: #111827;
+
+        }
+
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .table-card {
+
+            background: white;
+
+            border:
+                1px solid var(--border-color);
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.04);
+
+        }
+
+
+        .table-responsive {
+
+            border-radius: 14px;
+
+        }
+
+
+        .table {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .table thead th {
+
+            background: #f1f5ff;
+
+            color: #374151;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.4px;
+
+            padding: 15px;
+
+            border-bottom:
+                1px solid #dbe3f0;
+
+            white-space: nowrap;
+
+        }
+
+
+        .table tbody td {
+
+            padding: 15px;
+
+            vertical-align: middle;
+
+            font-size: 13px;
+
+            border-color: #e5e7eb;
+
+        }
+
+
+        .table tbody tr {
+
+            transition: all 0.15s ease;
+
+        }
+
+
+        .table tbody tr:hover {
+
+            background: #f8faff;
+
+            transform: scale(1.001);
+
+        }
+
+
+        /* =====================================================
+           STUDENT PHOTO
+        ===================================================== */
+
+        .student-photo {
+
+            width: 50px;
+
+            height: 65px;
+
+            object-fit: cover;
+
+            border-radius: 6px;
+
+            border: 1px solid #d9dee8;
+
+            background: #f1f3f5;
+
+            display: block;
+
+        }
+
+
+        .no-photo {
+
+            width: 50px;
+
+            height: 65px;
+
+            border-radius: 6px;
+
+            background: #f1f3f5;
+
+            border: 1px solid #d9dee8;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #9ca3af;
+
+            font-size: 22px;
+
+        }
+
+
+        /* =====================================================
+           STUDENT NAME
+        ===================================================== */
+
+        .student-name {
+
+            color: #2563eb;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+        }
+
+
+        .student-name:hover {
+
+            color: #1d4ed8;
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =====================================================
+           CLASS BADGE
+        ===================================================== */
+
+        .class-badge {
+
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 6px;
+
+            background: #eef4ff;
+
+            color: #2563eb;
+
+            font-weight: 600;
+
+            font-size: 11px;
+
+        }
+
+
+        /* =====================================================
+           SECTION BADGE
+        ===================================================== */
+
+        .section-badge {
+
+            display: inline-flex;
+
+            min-width: 30px;
+
+            height: 28px;
+
+            padding: 0 8px;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 6px;
+
+            background: #e8f8ee;
+
+            color: #198754;
+
+            font-weight: 700;
+
+            font-size: 11px;
+
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ===================================================== */
+
+        .action-btn {
+
+            width: 36px;
+
+            height: 36px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 8px;
+
+            margin-right: 4px;
+
+            font-size: 15px;
+
+        }
+
+
+        .action-btn:hover {
+
+            transform: translateY(-1px);
+
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .form-control,
+        .form-select {
+
+            border-radius: 8px;
+
+            border-color: #d1d5db;
+
+            padding: 10px 12px;
+
+            font-size: 13px;
+
+        }
+
+
+        .form-control:focus,
+        .form-select:focus {
+
+            border-color: #6366f1;
+
+            box-shadow:
+                0 0 0 3px rgba(99,102,241,0.12);
+
+        }
+
+
+        label {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        /* =====================================================
+           SEARCH CARD
+        ===================================================== */
+
+        .search-card {
+
+            background: white;
+
+            border: 1px solid var(--border-color);
+
+            border-radius: 14px;
+
+            padding: 18px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.04);
+
+        }
+
+
+        /* =====================================================
+           BADGES
+        ===================================================== */
+
+        .badge {
+
+            border-radius: 6px;
+
+            padding: 6px 9px;
+
+            font-size: 11px;
+
+        }
+
+
+        /* =====================================================
+           PAGINATION
+        ===================================================== */
+
+        .pagination {
+
+            gap: 5px;
+
+        }
+
+
+        .pagination .page-link {
+
+            border-radius: 7px;
+
+            border: 1px solid #dbe1ea;
+
+            color: #4b5563;
+
+            min-width: 36px;
+
+            text-align: center;
+
+        }
+
+
+        .pagination .page-item.active .page-link {
+
+            background: var(--primary);
+
+            border-color: var(--primary);
+
+            color: white;
+
+        }
+
+
+        /* =====================================================
+           ALERT
+        ===================================================== */
+
+        .alert {
+
+            border-radius: 10px;
+
+            border: none;
+
+        }
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal-content {
+
+            border: none;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 20px 50px rgba(0,0,0,0.2);
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 991px) {
+
+            .sidebar {
+
+                transform: translateX(-100%);
+
+            }
+
+
+            .sidebar.show {
+
+                transform: translateX(0);
+
+            }
+
+
+            .main-content {
+
+                margin-left: 0;
+
+            }
+
+
+            .mobile-menu-btn {
+
+                display: inline-flex;
+
+            }
+
+
+            .page-content {
+
+                padding: 20px;
+
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .user-info {
+
+                display: none;
+
+            }
+
+
+            .page-header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 12px;
+
+            }
+
+
+            .top-navbar {
+
+                padding: 0 15px;
+
+            }
+
+
+            .page-content {
+
+                padding: 15px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+
+    <!-- Brand -->
+
+    <div class="brand">
+
+        <div class="brand-icon">
+
+            <i class="bi bi-mortarboard-fill"></i>
+
+        </div>
+
+        <div class="brand-text">
+
+            <h4>School ERP</h4>
+
+            <small>Management System</small>
+
+        </div>
+
+    </div>
+
+
+    <!-- Main Menu -->
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+
+    <!-- Dashboard -->
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="sidebar-link"
+    >
+
+        <span class="sidebar-link-left">
+
+            <i class="bi bi-grid-1x2-fill"></i>
+
+            Dashboard
+
+        </span>
+
+    </a>
+
+
+    <!-- Students -->
+
+    <a
+        class="sidebar-link"
+        data-bs-toggle="collapse"
+        href="#studentMenu"
+        role="button"
+        aria-expanded="false"
+        aria-controls="studentMenu"
+    >
+
+        <span class="sidebar-link-left">
+
+            <i class="bi bi-people-fill"></i>
+
+            Students
+
+        </span>
+
+        <i class="bi bi-chevron-down arrow"></i>
+
+    </a>
+
+
+    <div
+        class="collapse submenu"
+        id="studentMenu"
+    >
+
+        <a href="{% url 'add_student' %}">
+            <i class="bi bi-person-plus"></i>
+            Add Student
+        </a>
+
+        <a href="{% url 'student_list' %}">
+            <i class="bi bi-list-ul"></i>
+            Student List
+        </a>
+
+    </div>
+
+
+    <!-- Fees -->
+
+    <a
+        class="sidebar-link"
+        data-bs-toggle="collapse"
+        href="#feesMenu"
+        role="button"
+        aria-expanded="false"
+        aria-controls="feesMenu"
+    >
+
+        <span class="sidebar-link-left">
+
+            <i class="bi bi-cash-stack"></i>
+
+            Fees
+
+        </span>
+
+        <i class="bi bi-chevron-down arrow"></i>
+
+    </a>
+
+
+    <div
+        class="collapse submenu"
+        id="feesMenu"
+    >
+
+        <a href="{% url 'fee_category_list' %}">
+            <i class="bi bi-tags"></i>
+            Fee Categories
+        </a>
+
+        <a href="{% url 'add_fee_category' %}">
+            <i class="bi bi-plus-circle"></i>
+            Add Fee Category
+        </a>
+
+        <a href="{% url 'assign_fee' %}">
+            <i class="bi bi-person-check"></i>
+            Assign Fee
+        </a>
+
+        <a href="{% url 'assigned_fee_list' %}">
+            <i class="bi bi-card-checklist"></i>
+            Assigned Fees
+        </a>
+
+        <a href="{% url 'student_fee_collection' %}">
+            <i class="bi bi-wallet2"></i>
+            Fee Collection
+        </a>
+          <!-- Payment History -->
+
+        <a href="{% url 'payment_list' %}">
+            <i class="bi bi-receipt"></i>
+            Payment History
+        </a>
+
+    </div>
+
+
+    <!-- Teachers -->
+
+    <a
+        class="sidebar-link"
+        data-bs-toggle="collapse"
+        href="#teacherMenu"
+        role="button"
+        aria-expanded="false"
+        aria-controls="teacherMenu"
+    >
+
+        <span class="sidebar-link-left">
+
+            <i class="bi bi-person-workspace"></i>
+
+            Teachers
+
+        </span>
+
+        <i class="bi bi-chevron-down arrow"></i>
+
+    </a>
+
+
+    <div
+        class="collapse submenu"
+        id="teacherMenu"
+    >
+
+        <a href="#">
+            <i class="bi bi-person-plus"></i>
+            Add Teacher
+        </a>
+
+        <a href="#">
+            <i class="bi bi-people"></i>
+            Teacher List
+        </a>
+
+        <a href="#">
+            <i class="bi bi-cash"></i>
+            Salary
+        </a>
+
+    </div>
+
+
+    <!-- Transport -->
+
+    <a
+        class="sidebar-link"
+        data-bs-toggle="collapse"
+        href="#transportMenu"
+        role="button"
+        aria-expanded="false"
+        aria-controls="transportMenu"
+    >
+
+        <span class="sidebar-link-left">
+
+            <i class="bi bi-bus-front-fill"></i>
+
+            Transport
+
+        </span>
+
+        <i class="bi bi-chevron-down arrow"></i>
+
+    </a>
+
+
+    <div
+        class="collapse submenu"
+        id="transportMenu"
+    >
+
+        <a href="#">
+            <i class="bi bi-truck"></i>
+            Vehicles
+        </a>
+
+        <a href="#">
+            <i class="bi bi-signpost"></i>
+            Routes
+        </a>
+
+        <a href="#">
+            <i class="bi bi-person-badge"></i>
+            Drivers
+        </a>
+
+        <a href="#">
+            <i class="bi bi-cash"></i>
+            Transport Fees
+        </a>
+
+    </div>
+
+
+    <!-- Reports -->
+
+    <a
+        class="sidebar-link"
+        data-bs-toggle="collapse"
+        href="#reportMenu"
+        role="button"
+        aria-expanded="false"
+        aria-controls="reportMenu"
+    >
+
+        <span class="sidebar-link-left">
+
+            <i class="bi bi-bar-chart-fill"></i>
+
+            Reports
+
+        </span>
+
+        <i class="bi bi-chevron-down arrow"></i>
+
+    </a>
+
+
+    <div
+        class="collapse submenu"
+        id="reportMenu"
+    >
+
+        <a href="#">
+            <i class="bi bi-people"></i>
+            Student Report
+        </a>
+
+        <a href="#">
+            <i class="bi bi-cash-stack"></i>
+            Fee Report
+        </a>
+
+        <a href="#">
+            <i class="bi bi-person"></i>
+            Teacher Report
+        </a>
+
+        <a href="#">
+            <i class="bi bi-graph-up"></i>
+            Income Report
+        </a>
+
+        <a href="#">
+            <i class="bi bi-graph-down"></i>
+            Expense Report
+        </a>
+
+    </div>
+
+
+    <!-- System -->
+
+    <div class="menu-title">
+        System
+    </div>
+
+
+    <!-- Logout -->
+
+    <a
+        href="{% url 'logout' %}"
+        class="sidebar-link"
+    >
+
+        <span class="sidebar-link-left">
+
+            <i class="bi bi-box-arrow-right"></i>
+
+            Logout
+
+        </span>
+
+    </a>
+
+
+    <!-- Footer -->
+
+    <div class="sidebar-footer">
+
+        <small>
+            School ERP
+        </small>
+
+        <div
+            class="text-white mt-1"
+            style="font-size:12px;"
+        >
+
+            Management Portal
+
+        </div>
+
+    </div>
+
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<main class="main-content">
+
+
+    <!-- TOP NAVBAR -->
+
+    <nav class="top-navbar">
+
+
+        <div class="d-flex align-items-center gap-3">
+
+
+            <!-- Mobile menu -->
+
+            <button
+                class="mobile-menu-btn"
+                onclick="toggleSidebar()"
+            >
+
+                <i class="bi bi-list"></i>
+
+            </button>
+
+
+            <!-- Welcome -->
+
+            <div class="welcome-text">
+
+                <small>
+                    Welcome back
+                </small>
+
+                <strong>
+                    {{ request.user.username }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- User -->
+
+        <div class="user-profile">
+
+            <div class="user-avatar">
+
+                {{ request.user.username|first|upper }}
+
+            </div>
+
+
+            <div class="user-info">
+
+                <strong>
+                    {{ request.user.username }}
+                </strong>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+        </div>
+
+
+    </nav>
+
+
+    <!-- PAGE CONTENT -->
+
+    <div class="page-content">
+
+        {% block content %}
+
+        {% endblock %}
+
+    </div>
+
+
+</main>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- Sidebar Mobile Script -->
+
+<script>
+
+    function toggleSidebar() {
+
+        const sidebar =
+            document.getElementById("sidebar");
+
+        sidebar.classList.toggle("show");
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

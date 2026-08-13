@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete Assigned Fee
+{% endblock %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-danger text-white">
+
+        Delete Assigned Fee
+
+    </div>
+
+    <div class="card-body">
+
+        <h5>
+            Are you sure you want to delete this fee?
+        </h5>
+
+        <p>
+            <strong>Student:</strong>
+            {{ student_fee.student }}
+        </p>
+
+        <p>
+            <strong>Fee:</strong>
+            {{ student_fee.fee_category }}
+        </p>
+
+        <p>
+            <strong>Amount:</strong>
+            ₹ {{ student_fee.amount }}
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="btn btn-danger">
+
+                Yes, Delete
+
+            </button>
+
+            <a
+                href="{% url 'assigned_fee_list' %}"
+                class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

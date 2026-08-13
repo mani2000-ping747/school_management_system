@@ -1,0 +1,528 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- =====================================================
+     PAGE HEADER
+===================================================== -->
+
+<div class="page-header">
+
+    <div>
+
+        <h1 class="page-title">
+            Dashboard
+        </h1>
+
+        <div class="page-subtitle">
+            School management overview
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SUMMARY CARDS
+===================================================== -->
+
+<div class="row g-4 mb-4">
+
+
+    <!-- TOTAL STUDENTS -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="erp-card dashboard-card">
+
+            <div class="erp-card-body">
+
+                <div class="dashboard-card-content">
+
+                    <div>
+
+                        <div class="dashboard-card-title">
+                            Total Students
+                        </div>
+
+                        <div class="dashboard-card-value">
+                            {{ total_students }}
+                        </div>
+
+                        <div class="dashboard-card-description">
+                            Students registered
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-icon students-icon">
+
+                        <i class="bi bi-people-fill"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FEES ASSIGNED -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="erp-card dashboard-card">
+
+            <div class="erp-card-body">
+
+                <div class="dashboard-card-content">
+
+                    <div>
+
+                        <div class="dashboard-card-title">
+                            Fees Assigned
+                        </div>
+
+                        <div class="dashboard-card-value">
+                            ₹ {{ total_fee_assigned|floatformat:2 }}
+                        </div>
+
+                        <div class="dashboard-card-description">
+                            Total assigned fees
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-icon fees-icon">
+
+                        <i class="bi bi-receipt"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- COLLECTED -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="erp-card dashboard-card">
+
+            <div class="erp-card-body">
+
+                <div class="dashboard-card-content">
+
+                    <div>
+
+                        <div class="dashboard-card-title">
+                            Fees Collected
+                        </div>
+
+                        <div class="dashboard-card-value">
+                            ₹ {{ total_collected|floatformat:2 }}
+                        </div>
+
+                        <div class="dashboard-card-description">
+                            Total amount collected
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-icon collected-icon">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PENDING -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="erp-card dashboard-card">
+
+            <div class="erp-card-body">
+
+                <div class="dashboard-card-content">
+
+                    <div>
+
+                        <div class="dashboard-card-title">
+                            Pending Fees
+                        </div>
+
+                        <div class="dashboard-card-value">
+                            ₹ {{ total_pending|floatformat:2 }}
+                        </div>
+
+                        <div class="dashboard-card-description">
+                            Amount remaining
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-icon pending-icon">
+
+                        <i class="bi bi-clock-history"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SECOND ROW
+===================================================== -->
+
+<div class="row g-4 mb-4">
+
+
+    <!-- TODAY COLLECTION -->
+
+    <div class="col-lg-4">
+
+        <div class="erp-card dashboard-small-card">
+
+            <div class="erp-card-header">
+
+                <strong>
+                    <i class="bi bi-calendar-check me-2"></i>
+                    Today's Collection
+                </strong>
+
+            </div>
+
+            <div class="erp-card-body text-center">
+
+                <div class="today-amount">
+
+                    ₹ {{ today_collection|floatformat:2 }}
+
+                </div>
+
+                <div class="text-muted mt-2">
+
+                    Collection received today
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PAID -->
+
+    <div class="col-lg-4">
+
+        <div class="erp-card dashboard-small-card">
+
+            <div class="erp-card-header">
+
+                <strong>
+                    <i class="bi bi-check-circle me-2"></i>
+                    Paid Fees
+                </strong>
+
+            </div>
+
+            <div class="erp-card-body text-center">
+
+                <div class="status-number text-success">
+
+                    {{ paid_fee_count }}
+
+                </div>
+
+                <div class="text-muted mt-2">
+
+                    Fee assignments fully paid
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PENDING -->
+
+    <div class="col-lg-4">
+
+        <div class="erp-card dashboard-small-card">
+
+            <div class="erp-card-header">
+
+                <strong>
+                    <i class="bi bi-hourglass-split me-2"></i>
+                    Pending Fees
+                </strong>
+
+            </div>
+
+            <div class="erp-card-body text-center">
+
+                <div class="status-number text-warning">
+
+                    {{ pending_fee_count }}
+
+                </div>
+
+                <div class="text-muted mt-2">
+
+                    Fee assignments pending
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     RECENT PAYMENTS
+===================================================== -->
+
+<div class="table-card">
+
+
+    <div class="erp-card-header">
+
+        <div>
+
+            <strong>
+                <i class="bi bi-clock-history me-2"></i>
+                Recent Fee Payments
+            </strong>
+
+            <div class="page-subtitle">
+
+                Latest payment transactions
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{% url 'payment_list' %}"
+            class="btn btn-primary"
+        >
+
+            <i class="bi bi-list-ul me-1"></i>
+
+            View All
+
+        </a>
+
+    </div>
+
+
+    <div class="table-responsive">
+
+        <table class="table">
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Student
+                    </th>
+
+                    <th>
+                        Admission No
+                    </th>
+
+                    <th>
+                        Fee Category
+                    </th>
+
+                    <th>
+                        Amount
+                    </th>
+
+                    <th>
+                        Payment Mode
+                    </th>
+
+                    <th>
+                        Date
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+            {% for payment in recent_payments %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ payment.student_fee.student }}
+
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+
+                        {{ payment.student_fee.student.admission_no }}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ payment.student_fee.fee_category }}
+
+                    </td>
+
+
+                    <td>
+
+                        <strong class="text-success">
+
+                            ₹ {{ payment.amount_paid|floatformat:2 }}
+
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+
+                        {% if payment.payment_mode == "Cash" %}
+
+                            <span class="badge bg-success">
+
+                                <i class="bi bi-cash me-1"></i>
+
+                                Cash
+
+                            </span>
+
+                        {% elif payment.payment_mode == "UPI" %}
+
+                            <span class="badge bg-primary">
+
+                                <i class="bi bi-phone me-1"></i>
+
+                                UPI
+
+                            </span>
+
+                        {% elif payment.payment_mode == "Card" %}
+
+                            <span class="badge bg-info">
+
+                                <i class="bi bi-credit-card me-1"></i>
+
+                                Card
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+
+                                {{ payment.payment_mode }}
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ payment.payment_date|date:"d M Y" }}
+
+                    </td>
+
+                </tr>
+
+
+            {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="text-center text-muted py-4"
+                    >
+
+                        <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+
+                        No payments found
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

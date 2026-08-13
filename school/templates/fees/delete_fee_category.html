@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete Fee Category
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card shadow mt-4">
+
+        <div class="card-header bg-danger text-white">
+            Delete Fee Category
+        </div>
+
+        <div class="card-body">
+
+            <h5>
+                Are you sure you want to delete
+                <strong>{{ fee.name }}</strong>?
+            </h5>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <button class="btn btn-danger">
+                    Delete
+                </button>
+
+                <a href="{% url 'fee_category_list' %}"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

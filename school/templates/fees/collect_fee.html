@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block title %}
+Collect Fee
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1 class="page-title">
+            Collect Fee
+        </h1>
+
+        <div class="page-subtitle">
+            Record student fee payment
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="row g-4">
+
+    <!-- Student Details -->
+
+    <div class="col-lg-5">
+
+        <div class="erp-card">
+
+            <div class="erp-card-header">
+
+                <strong>
+                    <i class="bi bi-person-circle me-2"></i>
+                    Student Details
+                </strong>
+
+            </div>
+
+            <div class="erp-card-body">
+
+                <div class="mb-3">
+
+                    <label>
+                        Student
+                    </label>
+
+                    <div class="form-control bg-light">
+                        {{ student_fee.student }}
+                    </div>
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label>
+                        Admission No
+                    </label>
+
+                    <div class="form-control bg-light">
+                        {{ student_fee.student.admission_no }}
+                    </div>
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label>
+                        Fee Category
+                    </label>
+
+                    <div class="form-control bg-light">
+                        {{ student_fee.fee_category }}
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Fee Amount
+                        </label>
+
+                        <div class="form-control bg-light">
+                            ₹ {{ student_fee.amount }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Discount
+                        </label>
+
+                        <div class="form-control bg-light">
+                            ₹ {{ student_fee.discount }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Already Paid
+                        </label>
+
+                        <div class="form-control bg-light text-success">
+                            ₹ {{ total_paid }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Balance
+                        </label>
+
+                        <div class="form-control bg-light text-danger">
+                            ₹ {{ balance }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Payment -->
+
+    <div class="col-lg-7">
+
+        <div class="erp-card">
+
+            <div class="erp-card-header">
+
+                <strong>
+                    <i class="bi bi-cash-stack me-2"></i>
+                    Payment Details
+                </strong>
+
+            </div>
+
+
+            <div class="erp-card-body">
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+
+                    <div class="mt-4">
+
+                        <button
+                            type="submit"
+                            class="btn btn-success"
+                        >
+
+                            <i class="bi bi-check-circle me-1"></i>
+
+                            Collect Payment
+
+                        </button>
+
+
+                        <a
+                            href="{% url 'student_fee_collection' %}"
+                            class="btn btn-secondary"
+                        >
+
+                            <i class="bi bi-arrow-left me-1"></i>
+
+                            Back
+
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

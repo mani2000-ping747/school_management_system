@@ -1,0 +1,542 @@
+{% extends "base.html" %}
+
+{% block title %}
+Fee Payments
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1 class="page-title">
+            Fee Payments
+        </h1>
+
+        <div class="page-subtitle">
+            View and manage all student fee payment transactions
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Payment Table -->
+
+<div class="table-card">
+
+    <div class="table-responsive">
+
+        <table class="table payment-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Student</th>
+
+                    <th>Admission No</th>
+
+                    <th>Fee Category</th>
+
+                    <th>Amount Paid</th>
+
+                    <th>Payment Mode</th>
+
+                    <th>Payment Date</th>
+
+                    <th class="text-center">Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            {% for payment in payments %}
+
+                <tr>
+
+                    <!-- Student -->
+
+                    <td>
+
+                        <strong class="student-name">
+
+                            {{ payment.student_fee.student.first_name }}
+
+                            {{ payment.student_fee.student.last_name }}
+
+                        </strong>
+
+                    </td>
+
+
+                    <!-- Admission Number -->
+
+                    <td>
+
+                        <span class="admission-number">
+
+                            {{ payment.student_fee.student.admission_no }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- Fee Category -->
+
+                    <td>
+
+                        <span class="fee-category">
+
+                            {{ payment.student_fee.fee_category.name }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- Amount -->
+
+                    <td>
+
+                        <strong class="payment-amount">
+
+                            ₹ {{ payment.amount_paid }}
+
+                        </strong>
+
+                    </td>
+
+
+                    <!-- Payment Mode -->
+
+                    <td>
+
+                        {% if payment.payment_mode == "Cash" %}
+
+                            <span class="payment-badge cash">
+
+                                <i class="bi bi-cash"></i>
+
+                                Cash
+
+                            </span>
+
+                        {% elif payment.payment_mode == "UPI" %}
+
+                            <span class="payment-badge upi">
+
+                                <i class="bi bi-phone"></i>
+
+                                UPI
+
+                            </span>
+
+                        {% elif payment.payment_mode == "Card" %}
+
+                            <span class="payment-badge card-mode">
+
+                                <i class="bi bi-credit-card"></i>
+
+                                Card
+
+                            </span>
+
+                        {% elif payment.payment_mode == "Bank" %}
+
+                            <span class="payment-badge bank">
+
+                                <i class="bi bi-bank"></i>
+
+                                Bank
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="payment-badge">
+
+                                {{ payment.payment_mode }}
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- Payment Date -->
+
+                    <td>
+
+                        {{ payment.payment_date|date:"d M Y" }}
+
+                    </td>
+
+
+                    <!-- Action -->
+
+                    <td class="text-center">
+
+                        <a
+                            href="{% url 'payment_receipt' payment.id %}"
+                            class="payment-action receipt-btn"
+                            title="View Payment Receipt"
+                        >
+
+                            <i class="bi bi-receipt"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+
+            {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="text-center py-5"
+                    >
+
+                        <div class="empty-state">
+
+                            <i class="bi bi-receipt"></i>
+
+                            <h5>
+                                No Payments Found
+                            </h5>
+
+                            <p>
+                                No fee payment transactions are available.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    /* =====================================================
+       PAYMENT TABLE
+    ===================================================== */
+
+    .payment-table {
+        margin-bottom: 0;
+    }
+
+
+    .payment-table thead th {
+
+        font-size: 13px;
+
+        font-weight: 700;
+
+        color: #374151;
+
+        background: #f1f5ff;
+
+        padding: 15px 16px;
+
+        white-space: nowrap;
+
+    }
+
+
+    .payment-table tbody td {
+
+        font-size: 14px;
+
+        padding: 17px 16px;
+
+        vertical-align: middle;
+
+        color: #1f2937;
+
+    }
+
+
+    .payment-table tbody tr {
+
+        transition: background 0.2s ease;
+
+    }
+
+
+    .payment-table tbody tr:hover {
+
+        background: #f8faff;
+
+    }
+
+
+    /* =====================================================
+       STUDENT
+    ===================================================== */
+
+    .student-name {
+
+        font-size: 15px;
+
+        font-weight: 600;
+
+        color: #1d4ed8;
+
+    }
+
+
+    .admission-number {
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        color: #374151;
+
+    }
+
+
+    .fee-category {
+
+        font-size: 14px;
+
+        font-weight: 500;
+
+    }
+
+
+    /* =====================================================
+       AMOUNT
+    ===================================================== */
+
+    .payment-amount {
+
+        font-size: 15px;
+
+        font-weight: 700;
+
+        color: #059669;
+
+        white-space: nowrap;
+
+    }
+
+
+    /* =====================================================
+       PAYMENT BADGES
+    ===================================================== */
+
+    .payment-badge {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 6px;
+
+        padding: 7px 11px;
+
+        border-radius: 7px;
+
+        font-size: 12px;
+
+        font-weight: 600;
+
+        white-space: nowrap;
+
+        background: #f3f4f6;
+
+        color: #374151;
+
+    }
+
+
+    .payment-badge.cash {
+
+        background: #dcfce7;
+
+        color: #15803d;
+
+    }
+
+
+    .payment-badge.upi {
+
+        background: #ede9fe;
+
+        color: #6d28d9;
+
+    }
+
+
+    .payment-badge.card-mode {
+
+        background: #dbeafe;
+
+        color: #1d4ed8;
+
+    }
+
+
+    .payment-badge.bank {
+
+        background: #fef3c7;
+
+        color: #92400e;
+
+    }
+
+
+    /* =====================================================
+       RECEIPT BUTTON
+    ===================================================== */
+
+    .payment-action {
+
+        width: 40px;
+
+        height: 40px;
+
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 8px;
+
+        text-decoration: none;
+
+        transition: all 0.2s ease;
+
+    }
+
+
+    .receipt-btn {
+
+        background: #4f46e5;
+
+        color: white;
+
+    }
+
+
+    .receipt-btn:hover {
+
+        background: #4338ca;
+
+        color: white;
+
+        transform: translateY(-1px);
+
+        box-shadow: 0 4px 10px rgba(79,70,229,0.25);
+
+    }
+
+
+    .payment-action i {
+
+        font-size: 17px;
+
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+
+    .empty-state {
+
+        padding: 25px;
+
+        color: #6b7280;
+
+    }
+
+
+    .empty-state i {
+
+        font-size: 42px;
+
+        color: #9ca3af;
+
+        display: block;
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .empty-state h5 {
+
+        margin-bottom: 5px;
+
+        font-weight: 600;
+
+        color: #374151;
+
+    }
+
+
+    .empty-state p {
+
+        margin: 0;
+
+        font-size: 13px;
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 768px) {
+
+        .payment-table thead th {
+
+            font-size: 12px;
+
+        }
+
+
+        .payment-table tbody td {
+
+            font-size: 13px;
+
+            padding: 13px;
+
+        }
+
+
+        .student-name {
+
+            font-size: 14px;
+
+        }
+
+    }
+
+</style>
+
+{% endblock %}

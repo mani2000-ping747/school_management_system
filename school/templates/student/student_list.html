@@ -1,0 +1,1458 @@
+{% extends "base.html" %}
+
+{% block title %}
+Student List
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* =====================================================
+       VIEW STUDENT BUTTON
+    ===================================================== */
+
+    .view-student-btn {
+        width: 38px;
+        height: 38px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #eef2ff;
+        color: #4f46e5;
+
+        border: 1px solid #c7d2fe;
+        border-radius: 7px;
+
+        font-size: 16px;
+        margin-right: 5px;
+
+        transition: all 0.2s ease;
+    }
+
+    .view-student-btn:hover {
+        background: #4f46e5;
+        color: white;
+        border-color: #4f46e5;
+    }
+
+
+    /* =====================================================
+       STUDENT DETAILS MODAL
+    ===================================================== */
+
+    .student-details-modal .modal-content {
+        border: none;
+        border-radius: 16px;
+        overflow: hidden;
+
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+
+    /* Header */
+
+    .student-details-header {
+        background: linear-gradient(
+            135deg,
+            #4f46e5,
+            #6366f1
+        );
+
+        color: white;
+        padding: 20px 24px;
+    }
+
+    .student-details-header .modal-title {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+
+    /* Profile */
+
+    .student-profile {
+        text-align: center;
+
+        padding: 25px 20px 20px;
+
+        background: #f8fafc;
+
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+
+    .student-profile-photo {
+        width: 110px;
+        height: 130px;
+
+        object-fit: cover;
+
+        border-radius: 10px;
+
+        border: 3px solid white;
+
+        box-shadow:
+            0 4px 15px rgba(0, 0, 0, 0.12);
+    }
+
+
+    .student-profile-placeholder {
+        width: 110px;
+        height: 130px;
+
+        margin: auto;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #e5e7eb;
+        color: #9ca3af;
+
+        border-radius: 10px;
+
+        font-size: 45px;
+    }
+
+
+    .student-profile-name {
+        margin-top: 12px;
+
+        font-size: 20px;
+        font-weight: 700;
+
+        color: #111827;
+    }
+
+
+    .student-profile-admission {
+        font-size: 13px;
+
+        color: #6b7280;
+    }
+
+
+    /* Information Sections */
+
+    .student-info-section {
+        padding: 20px 24px 5px;
+    }
+
+
+    .student-info-title {
+        font-size: 15px;
+        font-weight: 700;
+
+        color: #374151;
+
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+
+    .student-info-item {
+        margin-bottom: 18px;
+    }
+
+
+    .student-info-label {
+        font-size: 12px;
+
+        color: #6b7280;
+
+        margin-bottom: 3px;
+    }
+
+
+    .student-info-value {
+        font-size: 14px;
+
+        font-weight: 600;
+
+        color: #111827;
+
+        word-break: break-word;
+    }
+
+
+    /* Footer */
+
+    .student-details-footer {
+        padding: 15px 24px;
+
+        background: #f8fafc;
+
+        border-top: 1px solid #e5e7eb;
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 768px) {
+
+        .student-details-modal .modal-dialog {
+            margin: 10px;
+        }
+
+        .student-info-section {
+            padding: 18px 18px 5px;
+        }
+
+    }
+
+</style>
+
+
+<!-- =====================================================
+     PAGE HEADER
+===================================================== -->
+
+<div class="page-header">
+
+    <div>
+
+        <h1 class="page-title">
+            Student List
+        </h1>
+
+        <div class="page-subtitle">
+            Manage all students in the school
+        </div>
+
+    </div>
+
+
+    <a
+        href="{% url 'add_student' %}"
+        class="btn btn-primary"
+    >
+
+        <i class="bi bi-person-plus me-1"></i>
+
+        Add Student
+
+    </a>
+
+</div>
+
+
+
+<!-- =====================================================
+     SEARCH
+===================================================== -->
+
+<div class="search-card">
+
+    <form method="GET" class="row g-3">
+
+
+        <!-- CLASS -->
+
+        <div class="col-md-3">
+
+            <label>
+                Class
+            </label>
+
+
+            <select
+                name="class"
+                class="form-select"
+            >
+
+                <option value="">
+                    All Classes
+                </option>
+
+
+                {% for cls in classes %}
+
+                    <option
+                        value="{{ cls.id }}"
+                        {% if selected_class == cls.id|stringformat:"s" %}
+                            selected
+                        {% endif %}
+                    >
+
+                        {{ cls.name }}
+
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+
+        <!-- SEARCH STUDENT -->
+
+        <div class="col-md-5">
+
+            <label>
+                Search Student
+            </label>
+
+
+            <div class="input-group">
+
+                <span class="input-group-text">
+
+                    <i class="bi bi-search"></i>
+
+                </span>
+
+
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Admission No / Name / Mobile"
+                    value="{{ search|default:'' }}"
+                >
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SEARCH BUTTON -->
+
+        <div class="col-md-2 d-flex align-items-end">
+
+            <button
+                type="submit"
+                class="btn btn-success w-100"
+            >
+
+                <i class="bi bi-search me-1"></i>
+
+                Search
+
+            </button>
+
+        </div>
+
+
+
+        <!-- RESET BUTTON -->
+
+        <div class="col-md-2 d-flex align-items-end">
+
+            <a
+                href="{% url 'student_list' %}"
+                class="btn btn-secondary w-100"
+            >
+
+                <i class="bi bi-arrow-clockwise me-1"></i>
+
+                Reset
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+
+<!-- =====================================================
+     STUDENT TABLE
+===================================================== -->
+
+<div class="table-card">
+
+    <div class="table-responsive">
+
+        <table class="table align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Admission No
+                    </th>
+
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Father Name
+                    </th>
+
+                    <th>
+                        Class
+                    </th>
+
+                    <th>
+                        Section
+                    </th>
+
+                    <th>
+                        Photo
+                    </th>
+
+                    <th>
+                        Mobile
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+            {% for student in page_obj %}
+
+
+                <!-- =================================================
+                     STUDENT ROW
+                ================================================= -->
+
+                <tr>
+
+
+                    <!-- ADMISSION NO -->
+
+                    <td>
+
+                        <strong>
+                            {{ student.admission_no }}
+                        </strong>
+
+                    </td>
+
+
+
+                    <!-- NAME -->
+
+                    <td>
+
+                        <span class="student-name">
+
+                            {{ student.first_name }}
+
+                            {{ student.last_name }}
+
+                        </span>
+
+                    </td>
+
+
+
+                    <!-- FATHER NAME -->
+
+                    <td>
+
+                        {{ student.father_name }}
+
+                    </td>
+
+
+
+                    <!-- CLASS -->
+
+                    <td>
+
+                        <span class="class-badge">
+
+                            {{ student.student_class }}
+
+                        </span>
+
+                    </td>
+
+
+
+                    <!-- SECTION -->
+
+                    <td>
+
+                        <span class="section-badge">
+
+                            {{ student.section }}
+
+                        </span>
+
+                    </td>
+
+
+
+                    <!-- PHOTO -->
+
+                    <td>
+
+                        {% if student.photo %}
+
+
+                            <img
+                                src="{{ student.photo.url }}"
+                                class="student-photo"
+                                data-bs-toggle="modal"
+                                data-bs-target="#photoModal{{ student.id }}"
+                                style="cursor:pointer;"
+                                title="View Photo"
+                            >
+
+
+                        {% else %}
+
+
+                            <div class="no-photo">
+
+                                <i class="bi bi-person"></i>
+
+                            </div>
+
+
+                        {% endif %}
+
+                    </td>
+
+
+
+                    <!-- MOBILE -->
+
+                    <td>
+
+                        <i class="bi bi-telephone me-1"></i>
+
+                        {{ student.mobile }}
+
+                    </td>
+
+
+
+                    <!-- ACTION -->
+
+                    <td>
+
+
+                        <!-- VIEW -->
+
+                        <button
+                            type="button"
+                            class="view-student-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#studentModal{{ student.id }}"
+                            title="View Student"
+                        >
+
+                            <i class="bi bi-eye"></i>
+
+                        </button>
+
+
+
+                        <!-- EDIT -->
+
+                        <a
+                            href="{% url 'edit_student' student.id %}"
+                            class="btn btn-warning action-btn"
+                            title="Edit"
+                        >
+
+                            <i class="bi bi-pencil-square"></i>
+
+                        </a>
+
+
+
+                        <!-- DELETE -->
+
+                        <a
+                            href="{% url 'delete_student' student.id %}"
+                            class="btn btn-danger action-btn"
+                            title="Delete"
+                        >
+
+                            <i class="bi bi-trash"></i>
+
+                        </a>
+
+
+                    </td>
+
+                </tr>
+
+
+
+                <!-- =================================================
+                     STUDENT DETAILS POPUP
+                ================================================= -->
+
+                <div
+                    class="modal fade student-details-modal"
+                    id="studentModal{{ student.id }}"
+                    tabindex="-1"
+                    aria-hidden="true"
+                >
+
+                    <div
+                        class="modal-dialog modal-lg modal-dialog-centered"
+                    >
+
+                        <div class="modal-content">
+
+
+                            <!-- =================================================
+                                 MODAL HEADER
+                            ================================================= -->
+
+                            <div class="student-details-header">
+
+                                <div
+                                    class="d-flex justify-content-between align-items-center"
+                                >
+
+                                    <div class="modal-title">
+
+                                        <i
+                                            class="bi bi-person-vcard me-2"
+                                        ></i>
+
+                                        Student Details
+
+                                    </div>
+
+
+                                    <button
+                                        type="button"
+                                        class="btn-close btn-close-white"
+                                        data-bs-dismiss="modal"
+                                    ></button>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 STUDENT PROFILE
+                            ================================================= -->
+
+                            <div class="student-profile">
+
+
+                                {% if student.photo %}
+
+
+                                    <img
+                                        src="{{ student.photo.url }}"
+                                        class="student-profile-photo"
+                                        alt="{{ student.first_name }}"
+                                    >
+
+
+                                {% else %}
+
+
+                                    <div
+                                        class="student-profile-placeholder"
+                                    >
+
+                                        <i class="bi bi-person"></i>
+
+                                    </div>
+
+
+                                {% endif %}
+
+
+
+                                <div class="student-profile-name">
+
+                                    {{ student.first_name }}
+
+                                    {{ student.last_name }}
+
+                                </div>
+
+
+
+                                <div class="student-profile-admission">
+
+                                    Admission No:
+
+                                    <strong>
+                                        {{ student.admission_no }}
+                                    </strong>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 PERSONAL INFORMATION
+                            ================================================= -->
+
+                            <div class="student-info-section">
+
+
+                                <div class="student-info-title">
+
+                                    <i class="bi bi-person me-2"></i>
+
+                                    Personal Information
+
+                                </div>
+
+
+
+                                <div class="row">
+
+
+                                    <!-- FIRST NAME -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                First Name
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.first_name }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- LAST NAME -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Last Name
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.last_name|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- GENDER -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Gender
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.gender }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- DATE OF BIRTH -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Date of Birth
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.dob|date:"d M Y" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- FATHER NAME -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Father Name
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.father_name }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- MOTHER NAME -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Mother Name
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.mother_name }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- MOBILE -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Mobile Number
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.mobile }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- EMAIL -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Email
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.email|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- ADDRESS -->
+
+                                    <div class="col-md-12">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Address
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.address }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 ACADEMIC INFORMATION
+                            ================================================= -->
+
+                            <div class="student-info-section">
+
+
+                                <div class="student-info-title">
+
+                                    <i
+                                        class="bi bi-mortarboard me-2"
+                                    ></i>
+
+                                    Academic Information
+
+                                </div>
+
+
+
+                                <div class="row">
+
+
+                                    <!-- ADMISSION NUMBER -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Admission Number
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.admission_no }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- CLASS -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Class / Standard
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.student_class }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- SECTION -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Section
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.section }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- ADMISSION DATE -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Admission Date
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.admission_date|date:"d M Y" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 GOVERNMENT INFORMATION
+                            ================================================= -->
+
+                            <div class="student-info-section">
+
+
+                                <div class="student-info-title">
+
+                                    <i
+                                        class="bi bi-card-text me-2"
+                                    ></i>
+
+                                    Government Details
+
+                                </div>
+
+
+
+                                <div class="row">
+
+
+                                    <!-- CASTE -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Caste
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.caste|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- STS -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                STS No
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.sts_no|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- PEN -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                PEN No
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.pen_no|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- APAAR -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                APAAR ID
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.apaar_id|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- AADHAAR -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Aadhaar Number
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.aadhaar_no|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 MODAL FOOTER
+                            ================================================= -->
+
+                            <div
+                                class="student-details-footer text-end"
+                            >
+
+
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                >
+
+                                    <i class="bi bi-x-lg me-1"></i>
+
+                                    Close
+
+                                </button>
+
+
+
+                                <a
+                                    href="{% url 'edit_student' student.id %}"
+                                    class="btn btn-warning"
+                                >
+
+                                    <i
+                                        class="bi bi-pencil-square me-1"
+                                    ></i>
+
+                                    Edit Student
+
+                                </a>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PHOTO MODAL
+                ================================================= -->
+
+                {% if student.photo %}
+
+                <div
+                    class="modal fade"
+                    id="photoModal{{ student.id }}"
+                    tabindex="-1"
+                >
+
+                    <div
+                        class="modal-dialog modal-dialog-centered"
+                    >
+
+                        <div class="modal-content">
+
+
+                            <!-- HEADER -->
+
+                            <div class="modal-header">
+
+                                <h5 class="modal-title">
+
+                                    {{ student.first_name }}
+
+                                    {{ student.last_name }}
+
+                                </h5>
+
+
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                ></button>
+
+                            </div>
+
+
+
+                            <!-- PHOTO -->
+
+                            <div
+                                class="modal-body text-center"
+                            >
+
+                                <img
+                                    src="{{ student.photo.url }}"
+                                    class="img-fluid"
+                                    style="max-height:500px;"
+                                >
+
+                            </div>
+
+
+
+                            <!-- FOOTER -->
+
+                            <div class="modal-footer">
+
+
+                                <a
+                                    href="{{ student.photo.url }}"
+                                    download
+                                    class="btn btn-primary"
+                                >
+
+                                    <i
+                                        class="bi bi-download"
+                                    ></i>
+
+                                    Download
+
+                                </a>
+
+
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                >
+
+                                    Close
+
+                                </button>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+
+            {% empty %}
+
+
+                <!-- =================================================
+                     NO STUDENTS
+                ================================================= -->
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="text-center py-5"
+                    >
+
+                        <i
+                            class="bi bi-people fs-1 text-muted"
+                        ></i>
+
+
+                        <div class="mt-2">
+
+                            No Students Found
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+            {% endfor %}
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     PAGINATION
+===================================================== -->
+
+<nav class="mt-3">
+
+    <ul class="pagination">
+
+
+        {% if page_obj.has_previous %}
+
+
+            <li class="page-item">
+
+                <a
+                    class="page-link"
+                    href="?page={{ page_obj.previous_page_number }}&search={{ search }}&class={{ selected_class }}"
+                >
+
+                    Previous
+
+                </a>
+
+            </li>
+
+
+        {% endif %}
+
+
+
+        {% for num in page_obj.paginator.page_range %}
+
+
+            <li
+                class="page-item
+                {% if page_obj.number == num %}
+                    active
+                {% endif %}
+                "
+            >
+
+                <a
+                    class="page-link"
+                    href="?page={{ num }}&search={{ search }}&class={{ selected_class }}"
+                >
+
+                    {{ num }}
+
+                </a>
+
+            </li>
+
+
+        {% endfor %}
+
+
+
+        {% if page_obj.has_next %}
+
+
+            <li class="page-item">
+
+                <a
+                    class="page-link"
+                    href="?page={{ page_obj.next_page_number }}&search={{ search }}&class={{ selected_class }}"
+                >
+
+                    Next
+
+                </a>
+
+            </li>
+
+
+        {% endif %}
+
+
+    </ul>
+
+</nav>
+
+
+{% endblock %}
