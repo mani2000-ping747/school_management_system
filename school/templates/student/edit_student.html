@@ -6,24 +6,552 @@ Edit Student
 
 {% block content %}
 
-<h3 class="mb-4">
-Edit Student
-</h3>
+<style>
 
-<form method="POST" enctype="multipart/form-data">
+    .student-form-container {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
 
-    {% csrf_token %}
+    .form-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    }
 
-    {{ form.as_p }}
+    .form-section {
+        margin-bottom: 25px;
+    }
 
-    <button class="btn btn-success">
-        Update Student
-    </button>
+    .form-section-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1f2937;
+        padding-bottom: 10px;
+        margin-bottom: 18px;
+        border-bottom: 1px solid #e5e7eb;
+    }
 
-    <a href="{% url 'student_list' %}" class="btn btn-secondary">
-        Cancel
-    </a>
+    .form-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 6px;
+    }
 
-</form>
+    .form-control,
+    .form-select {
+        height: 42px;
+        border-radius: 8px;
+        font-size: 14px;
+        border: 1px solid #d1d5db;
+    }
+
+    textarea.form-control {
+        height: auto;
+        min-height: 70px;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.10);
+    }
+
+    .photo-field {
+        background: #f8fafc;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .current-photo {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 1px solid #e5e7eb;
+        margin-bottom: 10px;
+    }
+
+    .required {
+        color: #dc2626;
+    }
+
+    .form-actions {
+        border-top: 1px solid #e5e7eb;
+        padding-top: 20px;
+        margin-top: 10px;
+    }
+
+</style>
+
+
+<div class="student-form-container">
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1 class="page-title">
+                Edit Student
+            </h1>
+
+            <div class="page-subtitle">
+                Update student information
+            </div>
+
+        </div>
+
+        <a
+            href="{% url 'student_list' %}"
+            class="btn btn-secondary"
+        >
+
+            <i class="bi bi-arrow-left me-1"></i>
+
+            Back
+
+        </a>
+
+    </div>
+
+
+    <!-- FORM CARD -->
+
+    <div class="form-card">
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- STUDENT INFORMATION -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <i class="bi bi-person me-2"></i>
+
+                    Student Information
+
+                </div>
+
+
+                <div class="row g-3">
+
+
+                    <!-- Admission No -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Admission No
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.admission_no }}
+
+                        {% if form.admission_no.errors %}
+                            <div class="text-danger small">
+                                {{ form.admission_no.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- First Name -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            First Name
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.first_name }}
+
+                        {% if form.first_name.errors %}
+                            <div class="text-danger small">
+                                {{ form.first_name.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Last Name -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Last Name
+                        </label>
+
+                        {{ form.last_name }}
+
+                    </div>
+
+
+                    <!-- Father Name -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Father Name
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.father_name }}
+
+                    </div>
+
+
+                    <!-- Mother Name -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Mother Name
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.mother_name }}
+
+                    </div>
+
+
+                    <!-- Gender -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Gender
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.gender }}
+
+                    </div>
+
+
+                    <!-- DOB -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Date of Birth
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.dob }}
+
+                    </div>
+
+
+                    <!-- Mobile -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Mobile
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.mobile }}
+
+                    </div>
+
+
+                    <!-- Email -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Email
+                        </label>
+
+                        {{ form.email }}
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- SCHOOL INFORMATION -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <i class="bi bi-mortarboard me-2"></i>
+
+                    School Information
+
+                </div>
+
+
+                <div class="row g-3">
+
+
+                    <!-- Class -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Class
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.student_class }}
+
+                    </div>
+
+
+                    <!-- Section -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Section
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.section }}
+
+                    </div>
+
+
+                    <!-- Admission Date -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Admission Date
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.admission_date }}
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- GOVERNMENT DETAILS -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <i class="bi bi-card-text me-2"></i>
+
+                    Government Details
+
+                </div>
+
+
+                <div class="row g-3">
+
+
+                    <!-- Caste -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Caste
+                        </label>
+
+                        {{ form.caste }}
+
+                    </div>
+
+
+                    <!-- STS -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            STS No
+                        </label>
+
+                        {{ form.sts_no }}
+
+                    </div>
+
+
+                    <!-- PEN -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            PEN No
+                        </label>
+
+                        {{ form.pen_no }}
+
+                    </div>
+
+
+                    <!-- APAAR -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            APAAR ID
+                        </label>
+
+                        {{ form.apaar_id }}
+
+                    </div>
+
+
+                    <!-- Aadhaar -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Aadhaar No
+                        </label>
+
+                        {{ form.aadhaar_no }}
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <i class="bi bi-geo-alt me-2"></i>
+
+                    Contact & Address
+
+                </div>
+
+
+                <div class="row g-3">
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+                            Address
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.address }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PHOTO -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <i class="bi bi-camera me-2"></i>
+
+                    Student Photo
+
+                </div>
+
+
+                <div class="photo-field">
+
+                    {% if form.instance.photo %}
+
+                        <div>
+
+                            <div class="form-label">
+                                Current Photo
+                            </div>
+
+                            <img
+                                src="{{ form.instance.photo.url }}"
+                                class="current-photo"
+                                alt="Current Student Photo"
+                            >
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <label class="form-label d-block">
+                        Change Photo
+                    </label>
+
+                    {{ form.photo }}
+
+                    <div class="text-muted small mt-2">
+                        Leave this field unchanged if you don't want to change the photo.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="form-actions d-flex justify-content-end gap-2">
+
+                <a
+                    href="{% url 'student_list' %}"
+                    class="btn btn-secondary"
+                >
+
+                    <i class="bi bi-x-circle me-1"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-success px-4"
+                >
+
+                    <i class="bi bi-check-circle me-1"></i>
+
+                    Update Student
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
 
 {% endblock %}

@@ -5,14 +5,42 @@ from .models import FeeCategory, StudentFee, FeePayment
 class FeeCategoryForm(forms.ModelForm):
 
     class Meta:
+
         model = FeeCategory
-        fields = "__all__"
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        fields = [
+            "name",
+            "description",
+            "amount",
+            "is_active",
+        ]
 
-        for field in self.fields.values():
-            field.widget.attrs["class"] = "form-control"
+        widgets = {
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter fee category name",
+                }
+            ),
+            "description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 3,
+                    "placeholder": "Enter description",
+                }
+            ),
+            "amount": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter amount",
+                }
+            ),
+            "is_active": forms.CheckboxInput(
+                attrs={
+                    "class": "form-check-input",
+                }
+            ),
+        }
 
 
 class AssignFeeForm(forms.ModelForm):

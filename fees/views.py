@@ -45,19 +45,24 @@ def fee_category_list(request):
     )
 
 
-def edit_fee_category(request, id):
+def edit_fee_category(request, fee_id):
 
-    fee = get_object_or_404(FeeCategory, id=id)
+    fee = get_object_or_404(FeeCategory, id=fee_id)
 
     if request.method == "POST":
 
         form = FeeCategoryForm(request.POST, instance=fee)
 
         if form.is_valid():
+
             form.save()
+
+            messages.success(request, "Fee category updated successfully.")
+
             return redirect("fee_category_list")
 
     else:
+
         form = FeeCategoryForm(instance=fee)
 
     return render(

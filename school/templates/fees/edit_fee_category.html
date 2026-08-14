@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Fee Category
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1 class="page-title">
+            Edit Fee Category
+        </h1>
+
+        <div class="page-subtitle">
+            Update fee category details
+        </div>
+    </div>
+
+    <a
+        href="{% url 'fee_category_list' %}"
+        class="btn btn-secondary"
+    >
+        <i class="bi bi-arrow-left me-1"></i>
+        Back
+    </a>
+
+</div>
+
+
+<div class="card">
+
+    <div class="card-body">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    Please correct the errors below.
+                </div>
+            {% endif %}
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Fee Category Name
+                </label>
+
+                {{ form.name }}
+
+                {% if form.name.errors %}
+                    <div class="text-danger">
+                        {{ form.name.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Description
+                </label>
+
+                {{ form.description }}
+
+                {% if form.description.errors %}
+                    <div class="text-danger">
+                        {{ form.description.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Amount
+                </label>
+
+                {{ form.amount }}
+
+                {% if form.amount.errors %}
+                    <div class="text-danger">
+                        {{ form.amount.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <div class="form-check">
+
+                    {{ form.is_active }}
+
+                    <label class="form-check-label">
+                        Active
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="d-flex gap-2">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+
+                    <i class="bi bi-check-circle me-1"></i>
+
+                    Update Fee Category
+
+                </button>
+
+
+                <a
+                    href="{% url 'fee_category_list' %}"
+                    class="btn btn-secondary"
+                >
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

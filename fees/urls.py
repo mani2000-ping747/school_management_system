@@ -5,7 +5,9 @@ urlpatterns = [
     # Fee Category
     path("category/add/", views.add_fee_category, name="add_fee_category"),
     path("category/list/", views.fee_category_list, name="fee_category_list"),
-    path("category/edit/<int:id>/", views.edit_fee_category, name="edit_fee_category"),
+    path(
+        "category/edit/<int:fee_id>/", views.edit_fee_category, name="edit_fee_category"
+    ),
     path(
         "category/delete/<int:id>/",
         views.delete_fee_category,
