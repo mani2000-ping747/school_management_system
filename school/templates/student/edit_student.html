@@ -148,6 +148,19 @@ Edit Student
                 <div class="row g-3">
 
 
+                    <!-- Application No -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Application No
+                        </label>
+
+                        {{ form.application_no }}
+
+                    </div>
+
+
                     <!-- Admission No -->
 
                     <div class="col-md-4">
@@ -433,6 +446,264 @@ Edit Student
                     </div>
 
 
+                    <!-- Religion -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Religion
+                        </label>
+
+                        {{ form.religion }}
+
+                    </div>
+
+
+                    <!-- Sub Caste -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Sub Caste
+                        </label>
+
+                        {{ form.sub_caste }}
+
+                    </div>
+
+
+                    <!-- Blood Group -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Blood Group
+                        </label>
+
+                        {{ form.blood_group }}
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- PREVIOUS SCHOOL / TC DETAILS -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <i class="bi bi-clock-history me-2"></i>
+
+                    Previous School & Transfer Certificate (TC) Details
+
+                </div>
+
+
+                <div class="row g-3">
+
+
+                    <!-- Previous School Name -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Previous School Name
+                        </label>
+
+                        {{ form.previous_school_name }}
+
+                    </div>
+
+
+                    <!-- Previous School Dise No -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Previous School Dise No
+                        </label>
+
+                        {{ form.previous_school_dise_no }}
+
+                    </div>
+
+
+                    <!-- Previous Class -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Previous Class Studied
+                        </label>
+
+                        {{ form.previous_class }}
+
+                    </div>
+
+
+                    <!-- TC No -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            TC No
+                        </label>
+
+                        {{ form.tc_no }}
+
+                    </div>
+
+
+                    <!-- TC Date -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            TC Date
+                        </label>
+
+                        {{ form.tc_date }}
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- BANK DETAILS -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <i class="bi bi-bank me-2"></i>
+
+                    Bank Details
+
+                </div>
+
+
+                <div class="row g-3">
+
+
+                    <!-- Bank Name -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Student Bank Name
+                        </label>
+
+                        {{ form.bank_name }}
+
+                    </div>
+
+
+                    <!-- Bank Account No -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Bank A/c No
+                        </label>
+
+                        {{ form.bank_account_no }}
+
+                    </div>
+
+
+                    <!-- Bank IFSC -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Bank IFSC Code
+                        </label>
+
+                        {{ form.bank_ifsc_code }}
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- TRANSPORT DETAILS -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <i class="bi bi-bus-front me-2"></i>
+
+                    Transport / Bus Details
+
+                </div>
+
+
+                <div class="row g-3 align-items-center">
+
+
+                    <!-- Uses Transport -->
+
+                    <div class="col-md-4 d-flex align-items-center gap-2">
+
+                        {{ form.uses_transport }}
+
+                        <label class="form-label mb-0">
+                            Student Uses School Bus
+                        </label>
+
+                    </div>
+
+
+                    <!-- Bus Number -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Bus No
+                        </label>
+
+                        {{ form.bus_number }}
+
+                    </div>
+
+
+                    <!-- Bus Route -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Bus Route
+                        </label>
+
+                        {{ form.bus_route }}
+
+                    </div>
+
+
+                    <!-- Bus Fee -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Bus Fee
+                        </label>
+
+                        {{ form.bus_fee }}
+
+                    </div>
+
+
                 </div>
 
             </div>
@@ -464,6 +735,115 @@ Edit Student
 
                     </div>
 
+                </div>
+
+            </div>
+
+
+            <!-- DOCUMENTS -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+
+                    <i class="bi bi-file-earmark-arrow-up me-2"></i>
+
+                    Attached Documents
+
+                </div>
+
+
+                <div class="row g-3">
+
+
+                    <!-- BPL Card -->
+
+                    <div class="col-md-4">
+
+                        <div class="photo-field">
+
+                            <label class="form-label d-block">
+                                BPL Card
+                            </label>
+
+                            {% if form.instance.bpl_card_document %}
+                                <div class="small mb-2">
+                                    <a href="{{ form.instance.bpl_card_document.url }}" target="_blank">
+                                        <i class="bi bi-paperclip me-1"></i>
+                                        View current file
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            {{ form.bpl_card_document }}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Income Certificate -->
+
+                    <div class="col-md-4">
+
+                        <div class="photo-field">
+
+                            <label class="form-label d-block">
+                                Income Certificate
+                            </label>
+
+                            {% if form.instance.income_certificate_document %}
+                                <div class="small mb-2">
+                                    <a href="{{ form.instance.income_certificate_document.url }}" target="_blank">
+                                        <i class="bi bi-paperclip me-1"></i>
+                                        View current file
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            {{ form.income_certificate_document }}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Other Document -->
+
+                    <div class="col-md-4">
+
+                        <div class="photo-field">
+
+                            <label class="form-label d-block">
+                                Other Document
+                            </label>
+
+                            {% if form.instance.other_document %}
+                                <div class="small mb-2">
+                                    <a href="{{ form.instance.other_document.url }}" target="_blank">
+                                        <i class="bi bi-paperclip me-1"></i>
+                                        View current file
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            {{ form.other_document }}
+
+                            <label class="form-label d-block mt-2">
+                                Document Name
+                            </label>
+
+                            {{ form.other_document_name }}
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="text-muted small mt-2">
+                    Leave a document field empty to keep the currently attached file unchanged.
                 </div>
 
             </div>

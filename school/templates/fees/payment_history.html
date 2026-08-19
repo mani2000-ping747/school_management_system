@@ -18,6 +18,8 @@ Payment History
 
         <tr>
 
+            <th>Receipt No</th>
+
             <th>Student</th>
 
             <th>Fee Category</th>
@@ -37,6 +39,12 @@ Payment History
     {% for payment in payments %}
 
         <tr>
+
+            <td>
+
+                {{ payment.receipt_no|default:"-" }}
+
+            </td>
 
             <td>
 
@@ -74,7 +82,7 @@ Payment History
 
         <tr>
 
-            <td colspan="5"
+            <td colspan="6"
                 class="text-center">
 
                 No Payments Found

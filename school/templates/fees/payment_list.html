@@ -40,6 +40,8 @@ Fee Payments
 
                 <tr>
 
+                    <th>Receipt No</th>
+
                     <th>Student</th>
 
                     <th>Admission No</th>
@@ -64,6 +66,19 @@ Fee Payments
             {% for payment in payments %}
 
                 <tr>
+
+                    <!-- Receipt No -->
+
+                    <td>
+
+                        <strong class="admission-number">
+
+                            {{ payment.receipt_no|default:"-" }}
+
+                        </strong>
+
+                    </td>
+
 
                     <!-- Student -->
 
@@ -209,7 +224,7 @@ Fee Payments
                 <tr>
 
                     <td
-                        colspan="7"
+                        colspan="8"
                         class="text-center py-5"
                     >
 

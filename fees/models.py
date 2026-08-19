@@ -44,9 +44,22 @@ class FeePayment(models.Model):
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
     payment_date = models.DateField(auto_now_add=True)
     payment_mode = models.CharField(max_length=20, choices=PAYMENT_MODE)
+    receipt_no = models.CharField(
+        max_length=30, unique=True, null=True, blank=True, editable=False
+    )
 
     def __str__(self):
         return str(self.student_fee)
+
+    def save(self, *args, **kwargs):
+
+        is_new = self.pk is None
+
+        super().save(*args, **kwargs)
+
+        if is_new and not self.receipt_no:
+            self.receipt_no = f"RCPT-{self.id:06d}"
+            super().save(update_fields=["receipt_no"])
 
 
 # class Receipt(models.Model):

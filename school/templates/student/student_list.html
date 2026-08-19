@@ -1174,6 +1174,549 @@ Student List
                                     </div>
 
 
+                                    <!-- RELIGION -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Religion
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.religion|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- SUB CASTE -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Sub Caste
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.sub_caste|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- BLOOD GROUP -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Blood Group
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.blood_group|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- APPLICATION NO -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Application No
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.application_no|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 PREVIOUS SCHOOL / TC DETAILS
+                            ================================================= -->
+
+                            <div class="student-info-section">
+
+
+                                <div class="student-info-title">
+
+                                    <i
+                                        class="bi bi-clock-history me-2"
+                                    ></i>
+
+                                    Previous School & TC Details
+
+                                </div>
+
+
+
+                                <div class="row">
+
+
+                                    <!-- PREVIOUS SCHOOL NAME -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Previous School Name
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.previous_school_name|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- PREVIOUS SCHOOL DISE NO -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Previous School Dise No
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.previous_school_dise_no|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- PREVIOUS CLASS -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Previous Class Studied
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.previous_class|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- TC NO -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                TC No
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.tc_no|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- TC DATE -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                TC Date
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.tc_date|date:"d M Y"|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 BANK DETAILS
+                            ================================================= -->
+
+                            <div class="student-info-section">
+
+
+                                <div class="student-info-title">
+
+                                    <i
+                                        class="bi bi-bank me-2"
+                                    ></i>
+
+                                    Bank Details
+
+                                </div>
+
+
+
+                                <div class="row">
+
+
+                                    <!-- BANK NAME -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Bank Name
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.bank_name|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- BANK A/C NO -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Bank A/c No
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.bank_account_no|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- BANK IFSC -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Bank IFSC Code
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.bank_ifsc_code|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 TRANSPORT / BUS DETAILS
+                            ================================================= -->
+
+                            <div class="student-info-section">
+
+
+                                <div class="student-info-title">
+
+                                    <i
+                                        class="bi bi-bus-front me-2"
+                                    ></i>
+
+                                    Transport / Bus Details
+
+                                </div>
+
+
+
+                                <div class="row">
+
+
+                                    <!-- USES TRANSPORT -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Uses School Bus
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {% if student.uses_transport %}
+                                                    Yes
+                                                {% else %}
+                                                    No
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- BUS NO -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Bus No
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.bus_number|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- BUS ROUTE -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Bus Route
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {{ student.bus_route|default:"-" }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- BUS FEE -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Bus Fee
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {% if student.bus_fee %}
+                                                    ₹ {{ student.bus_fee }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 ATTACHED DOCUMENTS
+                            ================================================= -->
+
+                            <div class="student-info-section">
+
+
+                                <div class="student-info-title">
+
+                                    <i
+                                        class="bi bi-file-earmark-arrow-up me-2"
+                                    ></i>
+
+                                    Attached Documents
+
+                                </div>
+
+
+
+                                <div class="row">
+
+
+                                    <!-- BPL CARD -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                BPL Card
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {% if student.bpl_card_document %}
+                                                    <a href="{{ student.bpl_card_document.url }}" target="_blank">
+                                                        <i class="bi bi-file-earmark-check me-1"></i>
+                                                        View File
+                                                    </a>
+                                                {% else %}
+                                                    Not Uploaded
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- INCOME CERTIFICATE -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Income Certificate
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {% if student.income_certificate_document %}
+                                                    <a href="{{ student.income_certificate_document.url }}" target="_blank">
+                                                        <i class="bi bi-file-earmark-check me-1"></i>
+                                                        View File
+                                                    </a>
+                                                {% else %}
+                                                    Not Uploaded
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- OTHER DOCUMENT -->
+
+                                    <div class="col-md-4">
+
+                                        <div class="student-info-item">
+
+                                            <div class="student-info-label">
+                                                Other Document
+                                                {% if student.other_document_name %}
+                                                    ({{ student.other_document_name }})
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="student-info-value">
+
+                                                {% if student.other_document %}
+                                                    <a href="{{ student.other_document.url }}" target="_blank">
+                                                        <i class="bi bi-file-earmark-check me-1"></i>
+                                                        View File
+                                                    </a>
+                                                {% else %}
+                                                    Not Uploaded
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
                                 </div>
 
                             </div>

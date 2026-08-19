@@ -269,6 +269,7 @@ def student_fee_collection(request):
 
     student = None
     fees = []
+    receipts = []
 
     search = request.GET.get("search", "").strip()
     selected_class = request.GET.get("class", "")
@@ -306,12 +307,21 @@ def student_fee_collection(request):
 
             fee.balance = fee.amount - fee.discount - paid
 
+        # All receipts (payments) issued to this student so far, so that
+        # multiple receipts for the same student can be viewed together.
+        receipts = (
+            FeePayment.objects.filter(student_fee__student=student)
+            .select_related("student_fee", "student_fee__fee_category")
+            .order_by("-id")
+        )
+
     return render(
         request,
         "fees/student_fee_collection.html",
         {
             "student": student,
             "fees": fees,
+            "receipts": receipts,
             "search": search,
             "classes": SchoolClass.objects.all(),
             "selected_class": selected_class,

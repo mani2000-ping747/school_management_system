@@ -12,6 +12,9 @@ class StudentForm(forms.ModelForm):
             "admission_date": forms.DateInput(
                 attrs={"type": "date", "class": "form-control"}
             ),
+            "tc_date": forms.DateInput(
+                attrs={"type": "date", "class": "form-control"}
+            ),
         }
 
     def __init__(self, *args, **kwargs):
@@ -19,3 +22,6 @@ class StudentForm(forms.ModelForm):
 
         for field in self.fields.values():
             field.widget.attrs["class"] = "form-control"
+
+        if "uses_transport" in self.fields:
+            self.fields["uses_transport"].widget.attrs["class"] = "form-check-input"

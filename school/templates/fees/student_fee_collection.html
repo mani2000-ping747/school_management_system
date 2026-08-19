@@ -194,6 +194,89 @@ Fee Collection
 
         </table>
 
+
+        <!-- Payment Receipts issued so far for this student -->
+
+        <h6 class="mt-4 mb-3">
+            <i class="bi bi-receipt me-1"></i>
+            Payment Receipts
+        </h6>
+
+        {% if receipts %}
+
+        <table class="table table-bordered">
+
+            <thead class="table-secondary">
+
+                <tr>
+
+                    <th>Receipt No</th>
+
+                    <th>Fee Category</th>
+
+                    <th>Amount Paid</th>
+
+                    <th>Payment Mode</th>
+
+                    <th>Payment Date</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for receipt in receipts %}
+
+                <tr>
+
+                    <td>
+                        <strong>{{ receipt.receipt_no|default:"-" }}</strong>
+                    </td>
+
+                    <td>
+                        {{ receipt.student_fee.fee_category }}
+                    </td>
+
+                    <td>
+                        ₹ {{ receipt.amount_paid }}
+                    </td>
+
+                    <td>
+                        {{ receipt.payment_mode }}
+                    </td>
+
+                    <td>
+                        {{ receipt.payment_date|date:"d M Y" }}
+                    </td>
+
+                    <td>
+                        <a
+                            href="{% url 'payment_receipt' receipt.id %}"
+                            class="btn btn-outline-primary btn-sm"
+                        >
+                            View
+                        </a>
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="text-muted">
+            No receipts issued for this student yet.
+        </div>
+
+        {% endif %}
+
         {% endif %}
 
     </div>
