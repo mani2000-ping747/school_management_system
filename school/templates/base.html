@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+{% load static %}
 <head>
 
     <meta charset="UTF-8">
@@ -742,8 +742,7 @@
 
         .page-content {
 
-            padding: 28px;
-
+            padding: 45px 28px 28px 28px;
         }
 
 
@@ -1227,6 +1226,76 @@
         }
 
 
+
+        /* =====================================================
+        SCHOOL HEADER
+        ===================================================== */
+
+    .school-header {
+        display: flex;
+        align-items: center;
+        gap: 0;
+    }
+
+    /* Circular School Logo */
+    .school-header-logo { 
+        width: 150px; 
+        height: 148px; 
+        padding: 2px; 
+        margin-top: 30px; 
+        margin-left: -15px; 
+        margin-right: -5px; 
+    }
+    /* School Name & Location */
+    .school-header-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 0;
+    }
+
+    .school-header-name {
+        font-size: 24px;
+        font-weight: 800;
+        color: #172554;
+        line-height: 1.25;
+        letter-spacing: 0.2px;
+    }
+
+    .school-header-location {
+        font-size: 14px;
+        font-weight: 600;
+        color: #64748b;
+        margin-top: 6px;
+        letter-spacing: 0.2px;
+    }
+
+
+    /* Mobile */
+    @media (max-width: 768px) {
+
+        .school-header {
+            gap: 5px;
+        }
+
+        .school-header-logo {
+            width: 55px;
+            height: 55px;
+            padding: 3px;
+            margin-top: 8px;
+            margin-right: 0;
+        }
+
+        .school-header-name {
+            font-size: 16px;
+        }
+
+        .school-header-location {
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+    }
         /* =====================================================
            ALERT
         ===================================================== */
@@ -1292,7 +1361,7 @@
 
             .page-content {
 
-                padding: 20px;
+                padding: 85px 28px 28px 28px;
 
             }
 
@@ -1328,7 +1397,7 @@
 
             .page-content {
 
-                padding: 15px;
+                padding: 85px 28px 28px 28px;
 
             }
 
@@ -1731,35 +1800,41 @@
             </button>
 
 
-            <!-- Welcome -->
+            <!-- School Header -->
 
-            <div class="welcome-text">
+<div class="school-header">
 
-                <small>
-                    Welcome back
-                </small>
+    <img
+        src="{% static 'images/school_logo.jpeg' %}"
+        alt="Shri Gangadhar English Medium High School"
+        class="school-header-logo"
+    >
 
-                <strong>
-                    {{ request.user.username }}
-                </strong>
+    <div class="school-header-info">
 
-            </div>
-
+        <div class="school-header-name">
+            Shri Gangadhar English Medium High School
         </div>
+
+        <div class="school-header-location">
+            Noolvi • Hubli • Dist. Dharwad
+        </div>
+
+    </div>
 
 
         <!-- User -->
 
-        <div class="user-profile">
+        <!-- <div class="user-profile">
 
             <div class="user-avatar">
 
                 {{ request.user.username|first|upper }}
 
-            </div>
+            </div> -->
 
 
-            <div class="user-info">
+            <!-- <div class="user-info">
 
                 <strong>
                     {{ request.user.username }}
@@ -1771,7 +1846,7 @@
 
             </div>
 
-        </div>
+        </div> -->
 
 
     </nav>
