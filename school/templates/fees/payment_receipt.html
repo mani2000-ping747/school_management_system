@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
 Payment Receipt
@@ -8,196 +9,809 @@ Payment Receipt
 
 <style>
 
+/* =========================================================
+   PAGE
+========================================================= */
+
+.receipt-container {
+    max-width: 920px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   RECEIPT CARD
+========================================================= */
+
+.receipt-card {
+    background: #ffffff;
+    border: 1px solid #d7dce5;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+}
+
+
+/* =========================================================
+   SCHOOL HEADER
+========================================================= */
+
+.receipt-header {
+    position: relative;
+    text-align: center;
+
+    padding: 24px 35px 22px;
+
+    background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #f8faff 100%
+    );
+
+    border-bottom: 1px solid #d9dee8;
+}
+
+
+/* Top decorative line */
+
+.receipt-header::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 5px;
+
+    background: linear-gradient(
+        90deg,
+        #1e3a8a,
+        #4f46e5,
+        #d4a017,
+        #4f46e5,
+        #1e3a8a
+    );
+}
+
+
+/* Logo */
+
+.receipt-school-logo {
+    width: 145px;
+    height: 145px;
+
+    object-fit: contain;
+
+    display: block;
+
+    margin: 5px auto 2px;
+}
+
+
+/* School name */
+
+.school-name {
+    margin: 0;
+
+    font-size: 23px;
+    font-weight: 800;
+
+    color: #172554;
+
+    letter-spacing: 0.2px;
+}
+
+
+/* School address */
+
+.school-address {
+    margin: 5px 0 14px;
+
+    font-size: 12px;
+
+    color: #64748b;
+
+    letter-spacing: 0.3px;
+}
+
+
+/* Decorative divider */
+
+.school-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    margin: 5px auto 15px;
+
+    max-width: 400px;
+}
+
+.school-divider::before,
+.school-divider::after {
+    content: "";
+
+    height: 1px;
+
+    flex: 1;
+
+    background: #cbd5e1;
+}
+
+.school-divider span {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #d4a017;
+}
+
+
+/* Receipt title */
+
+.receipt-title {
+    margin: 0;
+
+    font-size: 27px;
+    font-weight: 800;
+
+    color: #111827;
+
+    letter-spacing: 0.4px;
+}
+
+
+.receipt-subtitle {
+    margin: 5px 0 10px;
+
+    font-size: 13px;
+
+    color: #64748b;
+}
+
+
+/* Receipt number */
+
+.receipt-number {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 7px 15px;
+
+    border: 1px solid #c7d2fe;
+
+    border-radius: 20px;
+
+    background: #eef2ff;
+
+    color: #3730a3;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   SUCCESS ICON
+========================================================= */
+
+.success-icon {
+    width: 48px;
+    height: 48px;
+
+    margin: 0 auto 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #dcfce7;
+
+    border: 5px solid #f0fdf4;
+
+    color: #16a34a;
+
+    font-size: 22px;
+
+    box-shadow: 0 3px 10px rgba(22, 163, 74, 0.12);
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+.receipt-body {
+    padding: 28px 30px;
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.section-header {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 0;
+
+    padding: 11px 14px;
+
+    background: #f8fafc;
+
+    border: 1px solid #d9dee8;
+    border-bottom: 2px solid #1e3a8a;
+
+    border-radius: 7px 7px 0 0;
+
+    color: #172554;
+
+    font-size: 15px;
+
+    font-weight: 800;
+}
+
+
+.section-header i {
+    font-size: 17px;
+
+    color: #4f46e5;
+}
+
+
+/* =========================================================
+   STUDENT INFORMATION
+========================================================= */
+
+.student-box {
+    margin-bottom: 25px;
+
+    border: 1px solid #d9dee8;
+
+    border-top: none;
+
+    border-radius: 0 0 8px 8px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+}
+
+
+.student-info-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+}
+
+
+.student-info-item {
+    padding: 14px 17px;
+
+    min-height: 67px;
+
+    border-right: 1px solid #d9dee8;
+    border-bottom: 1px solid #d9dee8;
+}
+
+
+.student-info-item:nth-child(even) {
+    border-right: none;
+}
+
+
+.student-info-item:nth-last-child(-n+2) {
+    border-bottom: none;
+}
+
+
+.info-label {
+    margin-bottom: 5px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    color: #64748b;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.6px;
+}
+
+
+.info-value {
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #111827;
+}
+
+
+/* =========================================================
+   PAYMENT TABLE
+========================================================= */
+
+.payment-wrapper {
+    overflow-x: auto;
+
+    border-radius: 0 0 8px 8px;
+}
+
+
+.payment-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    border: 1px solid #d9dee8;
+
+    table-layout: fixed;
+}
+
+
+.payment-table th {
+    padding: 13px 12px;
+
+    background: #eef2ff;
+
+    color: #172554;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.3px;
+
+    text-align: left;
+
+    border-right: 1px solid #d9dee8;
+
+    border-bottom: 1px solid #cbd5e1;
+}
+
+
+.payment-table th:last-child {
+    border-right: none;
+}
+
+
+.payment-table td {
+    padding: 15px 12px;
+
+    font-size: 13px;
+
+    color: #1f2937;
+
+    border-right: 1px solid #d9dee8;
+
+    border-bottom: 1px solid #d9dee8;
+
+    vertical-align: middle;
+}
+
+
+.payment-table td:last-child {
+    border-right: none;
+}
+
+
+.payment-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+.payment-table tbody tr:hover {
+    background: #fafbff;
+}
+
+
+/* Column widths */
+
+.payment-table th:nth-child(1),
+.payment-table td:nth-child(1) {
+    width: 25%;
+}
+
+.payment-table th:nth-child(2),
+.payment-table td:nth-child(2) {
+    width: 18%;
+}
+
+.payment-table th:nth-child(3),
+.payment-table td:nth-child(3) {
+    width: 17%;
+}
+
+.payment-table th:nth-child(4),
+.payment-table td:nth-child(4) {
+    width: 20%;
+}
+
+.payment-table th:nth-child(5),
+.payment-table td:nth-child(5) {
+    width: 20%;
+}
+
+
+/* =========================================================
+   AMOUNTS
+========================================================= */
+
+.amount-paid {
+    color: #059669;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+.normal-amount {
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   PAYMENT MODE
+========================================================= */
+
+.payment-mode {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 6px 10px;
+
+    border-radius: 6px;
+
+    background: #dbeafe;
+
+    color: #1d4ed8;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   DATE + BALANCE ROW
+========================================================= */
+
+.summary-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+
+    margin-top: 20px;
+}
+
+
+/* Date */
+
+.payment-date-box {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 15px 17px;
+
+    border: 1px solid #d9dee8;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+}
+
+
+.payment-date-label {
+    color: #64748b;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.payment-date-value {
+    color: #111827;
+
+    font-size: 14px;
+
+    font-weight: 800;
+}
+
+
+/* Balance */
+
+.balance-box {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 15px 17px;
+
+    border: 1px solid #fecaca;
+
+    border-left: 5px solid #dc2626;
+
+    border-radius: 8px;
+
+    background: #fff7f7;
+}
+
+
+.balance-label {
+    color: #7f1d1d;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.balance-value {
+    color: #dc2626;
+
+    font-size: 19px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   RECEIPT FOOTER
+========================================================= */
+
+.receipt-footer {
+    position: relative;
+
+    padding: 22px 30px 20px;
+
+    border-top: 1px solid #d9dee8;
+
+    background: #fafbfc;
+}
+
+
+/* Signature section */
+
+.signature-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    margin-bottom: 18px;
+}
+
+
+.signature-box {
+    width: 190px;
+
+    text-align: center;
+}
+
+
+.signature-line {
+    border-top: 1px solid #64748b;
+
+    margin-bottom: 6px;
+}
+
+
+.signature-label {
+    font-size: 11px;
+
+    color: #64748b;
+
+    font-weight: 600;
+}
+
+
+/* Footer bottom */
+
+.footer-bottom {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-top: 12px;
+
+    border-top: 1px dashed #cbd5e1;
+}
+
+
+.computer-generated {
+    font-size: 10px;
+
+    color: #94a3b8;
+}
+
+
+.thank-you {
+    font-size: 13px;
+
+    font-weight: 800;
+
+    color: #172554;
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print {
+
+    body {
+        background: #ffffff !important;
+    }
+
+    .sidebar,
+    .top-navbar,
+    .receipt-actions {
+        display: none !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    .page-content {
+        padding: 0 !important;
+    }
+
     .receipt-container {
-        max-width: 850px;
-        margin: 0 auto;
+        max-width: 100%;
+
+        margin: 0;
     }
 
     .receipt-card {
-        background: #ffffff;
-        border: 1px solid #e5e7eb;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-    }
+        border: 1px solid #000;
 
-    /* Header */
+        border-radius: 0;
+
+        box-shadow: none;
+    }
 
     .receipt-header {
-        text-align: center;
-        padding: 28px 25px;
-        border-bottom: 1px solid #e5e7eb;
+        padding-top: 15px;
     }
 
-    .receipt-header h2 {
-        margin: 0;
-        font-size: 26px;
-        font-weight: 800;
-        color: #1f2937;
+    .receipt-school-logo {
+        width: 110px;
+        height: 110px;
     }
-
-    .receipt-header p {
-        margin: 5px 0 0;
-        color: #6b7280;
-        font-size: 14px;
-    }
-
-    .success-icon {
-        width: 55px;
-        height: 55px;
-        margin: 0 auto 12px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        border-radius: 50%;
-        background: #dcfce7;
-        color: #16a34a;
-
-        font-size: 28px;
-    }
-
-    /* Body */
 
     .receipt-body {
-        padding: 28px;
-    }
-
-    .section-title {
-        font-size: 16px;
-        font-weight: 700;
-        color: #374151;
-
-        margin-bottom: 15px;
-    }
-
-    .student-box {
-        background: #f8fafc;
-        border-radius: 12px;
         padding: 20px;
-        margin-bottom: 25px;
     }
-
-    .info-label {
-        font-size: 12px;
-        color: #6b7280;
-        margin-bottom: 4px;
-    }
-
-    .info-value {
-        font-size: 15px;
-        font-weight: 600;
-        color: #1f2937;
-    }
-
-    /* Payment Table */
-
-    .payment-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .payment-table th {
-        background: #f8fafc;
-        padding: 13px;
-        font-size: 13px;
-        color: #374151;
-        text-align: left;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .payment-table td {
-        padding: 14px 13px;
-        font-size: 14px;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .amount-paid {
-        color: #16a34a;
-        font-size: 18px;
-        font-weight: 800;
-    }
-
-    .balance-box {
-        margin-top: 20px;
-        padding: 18px;
-
-        background: #f8fafc;
-        border-radius: 12px;
-
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .balance-label {
-        font-size: 14px;
-        color: #6b7280;
-    }
-
-    .balance-value {
-        font-size: 21px;
-        font-weight: 800;
-        color: #dc2626;
-    }
-
-    /* Footer */
 
     .receipt-footer {
-        padding: 20px 28px;
-
-        border-top: 1px solid #e5e7eb;
-
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        padding: 15px 20px;
     }
 
-    .computer-generated {
-        font-size: 12px;
-        color: #9ca3af;
+    .payment-table th,
+    .payment-table td,
+    .student-info-item,
+    .payment-date-box,
+    .balance-box {
+        border-color: #888 !important;
     }
 
-    /* Print */
-
-    @media print {
-
-        body {
-            background: white !important;
-        }
-
-        .sidebar,
-        .top-navbar,
-        .receipt-actions {
-            display: none !important;
-        }
-
-        .main-content {
-            margin-left: 0 !important;
-        }
-
-        .page-content {
-            padding: 0 !important;
-        }
-
-        .receipt-container {
-            max-width: 100%;
-        }
-
-        .receipt-card {
-            box-shadow: none;
-            border: 1px solid #000;
-        }
-
+    .payment-table tbody tr:hover {
+        background: transparent;
     }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .receipt-body {
+        padding: 18px;
+    }
+
+    .student-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .student-info-item {
+        border-right: none;
+
+        border-bottom: 1px solid #d9dee8 !important;
+    }
+
+    .student-info-item:last-child {
+        border-bottom: none !important;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .receipt-school-logo {
+        width: 120px;
+        height: 120px;
+    }
+
+    .school-name {
+        font-size: 18px;
+    }
+
+    .receipt-title {
+        font-size: 23px;
+    }
+
+    .signature-row {
+        gap: 20px;
+    }
+
+    .signature-box {
+        width: 150px;
+    }
+
+}
+
+
+/* =========================================================
+   PRINT PAGE
+========================================================= */
+
+@page {
+    size: A4;
+    margin: 12mm;
+}
 
 </style>
 
 
 <div class="receipt-container">
 
-    <!-- Page Header -->
+
+    <!-- =====================================================
+         PAGE ACTION HEADER
+    ====================================================== -->
 
     <div class="page-header receipt-actions">
 
@@ -213,6 +827,7 @@ Payment Receipt
 
         </div>
 
+
         <div>
 
             <button
@@ -225,6 +840,7 @@ Payment Receipt
                 Print Receipt
 
             </button>
+
 
             <a
                 href="{% url 'payment_list' %}"
@@ -242,13 +858,42 @@ Payment Receipt
     </div>
 
 
-    <!-- Receipt -->
+
+    <!-- =====================================================
+         RECEIPT
+    ====================================================== -->
 
     <div class="receipt-card">
 
-        <!-- Receipt Header -->
+
+        <!-- =================================================
+             SCHOOL HEADER
+        ================================================== -->
 
         <div class="receipt-header">
+
+
+            <img
+                src="{% static 'images/school_logo.jpeg' %}"
+                alt="Shri Gangadhar English Medium High School"
+                class="receipt-school-logo"
+            >
+
+
+            <h3 class="school-name">
+                Shri Gangadhar English Medium High School
+            </h3>
+
+
+            <div class="school-address">
+                Noolvi • Hubli • Dist. Dharwad
+            </div>
+
+
+            <div class="school-divider">
+                <span></span>
+            </div>
+
 
             <div class="success-icon">
 
@@ -256,30 +901,45 @@ Payment Receipt
 
             </div>
 
-            <h2>
-                Payment Receipt
+
+            <h2 class="receipt-title">
+                PAYMENT RECEIPT
             </h2>
 
-            <p>
-                Payment successfully received
-            </p>
 
-            <p>
-                <strong>Receipt No: {{ payment.receipt_no|default:"-" }}</strong>
-            </p>
+            <div class="receipt-subtitle">
+                Payment successfully received
+            </div>
+
+
+            <div class="receipt-number">
+
+                <i class="bi bi-receipt"></i>
+
+                Receipt No:
+                {{ payment.receipt_no|default:"-" }}
+
+            </div>
+
 
         </div>
 
 
-        <!-- Receipt Body -->
+
+        <!-- =================================================
+             RECEIPT BODY
+        ================================================== -->
 
         <div class="receipt-body">
 
-            <!-- Student Information -->
 
-            <div class="section-title">
+            <!-- =================================================
+                 STUDENT INFORMATION
+            ================================================== -->
 
-                <i class="bi bi-person-circle me-2"></i>
+            <div class="section-header">
+
+                <i class="bi bi-person-vcard"></i>
 
                 Student Information
 
@@ -288,9 +948,13 @@ Payment Receipt
 
             <div class="student-box">
 
-                <div class="row g-4">
 
-                    <div class="col-md-6">
+                <div class="student-info-grid">
+
+
+                    <!-- Student -->
+
+                    <div class="student-info-item">
 
                         <div class="info-label">
                             Student Name
@@ -307,7 +971,9 @@ Payment Receipt
                     </div>
 
 
-                    <div class="col-md-6">
+                    <!-- Admission -->
+
+                    <div class="student-info-item">
 
                         <div class="info-label">
                             Admission Number
@@ -322,10 +988,12 @@ Payment Receipt
                     </div>
 
 
-                    <div class="col-md-6">
+                    <!-- Class -->
+
+                    <div class="student-info-item">
 
                         <div class="info-label">
-                            Class
+                            Class / Standard
                         </div>
 
                         <div class="info-value">
@@ -337,7 +1005,9 @@ Payment Receipt
                     </div>
 
 
-                    <div class="col-md-6">
+                    <!-- Section -->
+
+                    <div class="student-info-item">
 
                         <div class="info-label">
                             Section
@@ -351,107 +1021,148 @@ Payment Receipt
 
                     </div>
 
+
                 </div>
 
             </div>
 
 
-            <!-- Payment Information -->
 
-            <div class="section-title">
+            <!-- =================================================
+                 PAYMENT DETAILS
+            ================================================== -->
 
-                <i class="bi bi-cash-stack me-2"></i>
+            <div class="section-header">
+
+                <i class="bi bi-wallet2"></i>
 
                 Payment Details
 
             </div>
 
 
-            <table class="payment-table">
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Fee Category
-                        </th>
-
-                        <th>
-                            Total Fee
-                        </th>
-
-                        <th>
-                            Discount
-                        </th>
-
-                        <th>
-                            Paid Now
-                        </th>
-
-                        <th>
-                            Payment Mode
-                        </th>
-
-                    </tr>
-
-                </thead>
+            <div class="payment-wrapper">
 
 
-                <tbody>
-
-                    <tr>
-
-                        <td>
-                            {{ payment.student_fee.fee_category }}
-                        </td>
-
-                        <td>
-                            ₹ {{ payment.student_fee.amount }}
-                        </td>
-
-                        <td>
-                            ₹ {{ payment.student_fee.discount }}
-                        </td>
-
-                        <td>
-
-                            <span class="amount-paid">
-
-                                ₹ {{ payment.amount_paid }}
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            <span class="badge bg-primary">
-
-                                {{ payment.payment_mode }}
-
-                            </span>
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
+                <table class="payment-table">
 
 
-            <!-- Payment Date -->
+                    <thead>
 
-            <div class="row mt-4">
+                        <tr>
 
-                <div class="col-md-6">
+                            <th>
+                                Fee Category
+                            </th>
 
-                    <div class="info-label">
+                            <th>
+                                Total Fee
+                            </th>
+
+                            <th>
+                                Discount
+                            </th>
+
+                            <th>
+                                Amount Paid
+                            </th>
+
+                            <th>
+                                Payment Mode
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+
+                            <td>
+
+                                <strong>
+                                    {{ payment.student_fee.fee_category }}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="normal-amount">
+                                    ₹ {{ payment.student_fee.amount }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="normal-amount">
+                                    ₹ {{ payment.student_fee.discount }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="amount-paid">
+                                    ₹ {{ payment.amount_paid }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="payment-mode">
+
+                                    <i class="bi bi-credit-card"></i>
+
+                                    {{ payment.payment_mode }}
+
+                                </span>
+
+                            </td>
+
+
+                        </tr>
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 DATE + BALANCE
+            ================================================== -->
+
+            <div class="summary-grid">
+
+
+                <!-- Payment Date -->
+
+                <div class="payment-date-box">
+
+                    <div class="payment-date-label">
+
+                        <i class="bi bi-calendar3 me-1"></i>
+
                         Payment Date
+
                     </div>
 
-                    <div class="info-value">
+
+                    <div class="payment-date-value">
 
                         {{ payment.payment_date|date:"d M Y" }}
 
@@ -459,49 +1170,93 @@ Payment Receipt
 
                 </div>
 
-            </div>
+
+                <!-- Balance -->
+
+                <div class="balance-box">
+
+                    <div class="balance-label">
+
+                        <i class="bi bi-hourglass-split me-1"></i>
+
+                        Remaining Balance
+
+                    </div>
 
 
-            <!-- Balance -->
+                    <div class="balance-value">
 
-            <div class="balance-box">
+                        ₹ {{ balance }}
 
-                <div class="balance-label">
-
-                    Remaining Balance
+                    </div>
 
                 </div>
 
-                <div class="balance-value">
-
-                    ₹ {{ balance }}
-
-                </div>
 
             </div>
+
 
         </div>
 
 
-        <!-- Receipt Footer -->
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
 
         <div class="receipt-footer">
 
-            <div class="computer-generated">
 
-                This is a computer-generated receipt.
+            <div class="signature-row">
+
+
+                <div class="signature-box">
+
+                    <div class="signature-line"></div>
+
+                    <div class="signature-label">
+                        Parent / Guardian
+                    </div>
+
+                </div>
+
+
+                <div class="signature-box">
+
+                    <div class="signature-line"></div>
+
+                    <div class="signature-label">
+                        Authorized Signature
+                    </div>
+
+                </div>
+
 
             </div>
 
-            <div>
 
-                <strong>
-                    Thank you!
-                </strong>
+            <div class="footer-bottom">
+
+
+                <div class="computer-generated">
+
+                    This is a computer-generated receipt.
+
+                </div>
+
+
+                <div class="thank-you">
+
+                    Thank you for your payment!
+
+                </div>
+
 
             </div>
+
 
         </div>
+
 
     </div>
 
